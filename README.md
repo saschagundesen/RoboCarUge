@@ -9,5 +9,5 @@ print ('I WANT TOOO GOOO HOOOMMME')
 print ('Thaaank yooouu Andreas')
 print ('Trætheden')
 print ('Hvor er min kaffe')
-print ('Anastiia rules')
+print ('Anastasiia rules')
 
