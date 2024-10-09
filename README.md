@@ -11,3 +11,5 @@ print ('Trætheden')
 print ('Hvor er min kaffe')
 print ('Anastasiia rules')
 
+Hej med jer hilsen Daniel
+
