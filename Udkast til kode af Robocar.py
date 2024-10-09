@@ -3,7 +3,7 @@
 
 
 
-import gpiozero as GPIO # Vigtigt modul for at interagere med Raspberry Pi's hardware (motorer, sensorer)
+import gpiozero as gz # Vigtigt modul for at interagere med Raspberry Pi's hardware (motorer, sensorer)
 import asyncio # Nyttig til samtidige opgaver som at styre motorer og aflæse sensorer samtidigt.
 from time import sleep #God til når vi skal bruge pauser og delays
 
@@ -26,35 +26,35 @@ TRIG = 4
 ECHO = 5
 
 #GPIO setup
-GPIO.setmode (GPIO.BCM)
-GPIO.setup (MotorA1, GPIO.OUT)
-GPIO.setup (MotorA2, GPIO.OUT)
-GPIO.setup (PWMA, GPIO.OUT)
-GPIO.setup (Motor2B1, GPIO.OUT)
-GPIO.setup (Motor2B2, GPIO.OUT)
-GPIO.setup (PWMB, GPIO.OUT)
-GPIO.setup (TRIG, GPIO.OUT)
-GPIO.setup (ECHO, GPIO.IN) #Hvorfor skal den være in
+gz.setmode (gz.BCM)
+gz.setup (MotorA1,gz.OUT)
+gz.setup (MotorA2, gz.OUT)
+gz.setup (PWMA, gz.OUT)
+gz.setup (Motor2B1, gz.OUT)
+gz.setup (Motor2B2, gz.OUT)
+gz.setup (PWMB, gz.OUT)
+gz.setup (TRIG, gz.OUT)
+gz.setup (ECHO, gz.IN) #Hvorfor skal den være in
 
 def motor_A(forward, speed): #Til bagdæk
     if forward:
-        GPIO.output(MotorA1, GPIO.HIGH)
-        GPIO.output(MotorA2, GPIO.LOW)
+        gz.output(MotorA1, gz.HIGH)
+        gz.output(MotorA2, gz.LOW)
 
     else:
-        GPIO.output(MotorA1, GPIO.LOW)
-        GPIO.output(MotorA2, GPIO.HIGH)
+        gz.output(MotorA1, gz.LOW)
+        gz.output(MotorA2, gz.HIGH)
     PWMA.ChangeDutyCycle(speed)
 
 
 def motor_B(forward, speed): #Til fordæk
     if forward:
-        GPIO.output(Motor2B1, GPIO.HIGH)
-        GPIO.output(Motor2B2, GPIO.LOW)
+        gz.output(Motor2B1, gz.HIGH)
+        gz.output(Motor2B2, gz.LOW)
 
     else:
-        GPIO.output(Motor2B1, GPIO.LOW)
-        GPIO.output(Motor2B2, GPIO.HIGH)
+        gz.output(Motor2B1, gz.LOW)
+        gz.output(Motor2B2, gz.HIGH)
     PWMB.ChangeDutyCycle(speed)
 
 def full_stop ():
