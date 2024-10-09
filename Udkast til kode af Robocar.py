@@ -3,7 +3,7 @@
 
 
 
-import RPi.GPIO as GPIO # Vigtigt modul for at interagere med Raspberry Pi's hardware (motorer, sensorer)
+import gpiozero as GPIO # Vigtigt modul for at interagere med Raspberry Pi's hardware (motorer, sensorer)
 import asyncio # Nyttig til samtidige opgaver som at styre motorer og aflæse sensorer samtidigt.
 from time import sleep #God til når vi skal bruge pauser og delays
 
@@ -14,16 +14,16 @@ from time import sleep #God til når vi skal bruge pauser og delays
 
 
 #Pins for vores motor kontrol (H-bro TB6612FNG)
-MotorA1 = 17 #motor a input 1
-MotorA2 = 17  #motor a input 2
-PWMA = 17 #motor a pwm
-Motor2B1= 17  #motor b input 1
-Motor2B2= 17  #motor b input 2
-PWMB = 17 #motor b pwm
+MotorA1 = 11 #motor a input 1
+MotorA2 = 10  #motor a input 2
+PWMA = 23 #motor a pwm
+Motor2B1= 12  #motor b input 1
+Motor2B2= 13  #motor b input 2
+PWMB = 26 #motor b pwm
 
 #Pins for HC SR04 (ultrasonic sensor)
-TRIG = 5
-ECHO = 6
+TRIG = 4
+ECHO = 5
 
 #GPIO setup
 GPIO.setmode (GPIO.BCM)
