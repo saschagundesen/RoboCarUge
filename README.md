@@ -14,3 +14,5 @@ print ('Anastasiia rules')
 Hej med jer hilsen Daniel
 
 shdaihdi
+
+print  ('hej')
