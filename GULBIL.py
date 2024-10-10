@@ -84,21 +84,22 @@ def move(state,speedleft,speedright):
     GPIO.output(DIR_A2,state)
     GPIO.output(DIR_B1,state)
     GPIO.output(DIR_B2,state)
-    PWM_A1_pwm.ChangeDutyCycle(speedleft)
+
+    PWM_A1_pwm.ChangeDutyCycle(speedright)
     PWM_A2_pwm.ChangeDutyCycle(speedleft)
-    PWM_B1_pwm.ChangeDutyCycle(speedleft)
+    PWM_B1_pwm.ChangeDutyCycle(speedright)
     PWM_B2_pwm.ChangeDutyCycle(speedleft)
 
 
 
 def GoForward():
     print('Going Forward')
-    move(GPIO.HIGH, 50)  # Kører fremad 50% speed
+    move(GPIO.HIGH, 50,50)  # Kører fremad 50% speed
 
 
 def GoBackward():
     print('Going Backward')
-    move(GPIO.LOW, 50)  # Kører baglæns 50% speed
+    move(GPIO.LOW, 50, 50)  # Kører baglæns 50% speed
 
 
 def press(key):
