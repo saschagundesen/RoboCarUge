@@ -115,3 +115,17 @@ except Exception as c:
 finally:
     full_stop()  
     #Sikre os at motoren også stopper
+
+# Add the SSH keyboard control code here
+
+def GoForward():
+    print('Going Forward')
+    motor_A(True, 50)  # Kører fremad 50% speed
+    motor_B(True, 50)
+
+def press(key):
+    if key == "w":
+        GoForward()
+
+while True:
+    listen_keyboard(on_press=press)
