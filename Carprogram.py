@@ -34,7 +34,9 @@ def motor_A(forward, speed):
     """
     if forward:
         motorA.forward(speed / 100.0)  # Convert speed to fraction
+        motorA.forward() # Move forward
     else:
+        PWMA_pwm.value = speed /100.0
         motorA.backward(speed / 100.0)
 
 def motor_B(forward, speed):
@@ -45,7 +47,9 @@ def motor_B(forward, speed):
     """
     if forward:
         motorB.forward(speed / 100.0)
+        motorB.forward()  # Move forward
     else:
+        PWMB_pwm.value = speed / 100.0  # Set PWM value
         motorB.backward(speed / 100.0)
 
 def full_stop():
@@ -70,12 +74,11 @@ def avoid_obstacle():
 
 # Example usage
 try:
-    while True:
+   while True:
         motor_A(True, 50)  # Move forward at 50% speed
         motor_B(True, 50)
+        sleep(0.1)        
         
-        avoid_obstacle()    # Check for obstacles while moving forward
-
 except KeyboardInterrupt:
     print("Program stopped by user.")
 finally:
