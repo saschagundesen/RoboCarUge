@@ -1,85 +1,89 @@
+import RPi.GPIO as GPIO
 from time import sleep
-from gpiozero import Motor, PWMOutputDevice, DistanceSensor
 
-# Define the GPIO pins for the motors
-MotorA1 = 11  # Motor A forward
-MotorA2 = 10  # Motor A backward
-PWMA = 23     # PWM control for Motor A
+# Motor A
+DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
+DIR_A2 = 11 # 11 # DIR 2 for Motor A
+PWM_A1 = 24 # 24 # PWM 1 for Motor A
+PWM_A2 = 10 # 10 # PWM 2 for Motor A
 
-MotorB1 = 12  # Motor B forward
-MotorB2 = 13  # Motor B backward
-PWMB = 26     # PWM control for Motor B
+# Motor B
+DIR_B1 = 17 # skiftes # DIR 1 for Motor B
+DIR_B2 = 9 # 9 # DIR 2 for Motor B
+PWM_B1 = 27 # 27 # PWM 1 for Motor B
+PWM_B2 = 7 # 7 # PWM 2 for Motor B
 
-# Define the GPIO pins for the ultrasonic sensor
-TRIG = 4
-ECHO = 5
+# Initialize GPIO
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)  
 
 # Initialize the PWM for motors
-PWMA_pwm = PWMOutputDevice(PWMA)
-PWMB_pwm = PWMOutputDevice(PWMB)
+GPIO.setup(PWM_A1, GPIO.OUT)
+PWM_A1_pwm = GPIO.PWM(PWM_A1, 50)  # 50 Hz frequency
+PWM_A1_pwm.start(0)  # Initial duty cycle 0%
 
-# Initialize motors
-motorA = Motor(forward=MotorA1, backward=MotorA2)
-motorB = Motor(forward=MotorB1, backward=MotorB2)
+GPIO.setup(PWM_A2, GPIO.OUT)
+PWM_A2_pwm = GPIO.PWM(PWM_A2, 50)  # 50 Hz frequency
+PWM_A2_pwm.start(0)  # Initial duty cycle 0%
 
-# Initialize the ultrasonic sensor
-sensor = DistanceSensor(trigger=TRIG, echo=ECHO)
+GPIO.setup(PWM_B1, GPIO.OUT)
+PWM_B1_pwm = GPIO.PWM(PWM_B1, 50)  # 50 Hz frequency
+PWM_B1_pwm.start(0)  # Initial duty cycle 0%
+
+GPIO.setup(PWM_B2, GPIO.OUT)
+PWM_B2_pwm = GPIO.PWM(PWM_B2, 50)  # 50 Hz frequency
+PWM_B2_pwm.start(0)  # Initial duty cycle 0%
+
+# Initialize DIR pins
+GPIO.setup(DIR_A1, GPIO.OUT)
+GPIO.setup(DIR_A2, GPIO.OUT)
+GPIO.setup(DIR_B1, GPIO.OUT)
+GPIO.setup(DIR_B2, GPIO.OUT)
 
 # Define motor control functions
-def motor_A(forward, speed):
+def motor_A(dir1, dir2, speed):
     """
-    Control Motor A to move forward or backward at a given speed.
-    :param forward: Boolean value indicating direction.
+    Control Motor A to move in a specific direction at a given speed.
+    :param dir1: Boolean value indicating direction 1.
+    :param dir2: Boolean value indicating direction 2.
     :param speed: Speed percentage (0-100).
     """
-    if forward:
-        motorA.forward(speed / 100.0)  # Convert speed to fraction
-        motorA.forward() # Move forward
-    else:
-        PWMA_pwm.value = speed /100.0
-        motorA.backward(speed / 100.0)
+    GPIO.output(DIR_A1, GPIO.HIGH if dir1 else GPIO.LOW)
+    GPIO.output(DIR_A2, GPIO.HIGH if dir2 else GPIO.LOW)
+    PWM_A1_pwm.ChangeDutyCycle(speed)
+    PWM_A2_pwm.ChangeDutyCycle(speed)
 
-def motor_B(forward, speed):
+def motor_B(dir1, dir2, speed):
     """
-    Control Motor B to move forward or backward at a given speed.
-    :param forward: Boolean value indicating direction.
+    Control Motor B to move in a specific direction at a given speed.
+    :param dir1: Boolean value indicating direction 1.
+    :param dir2: Boolean value indicating direction 2.
     :param speed: Speed percentage (0-100).
     """
-    if forward:
-        motorB.forward(speed / 100.0)
-        motorB.forward()  # Move forward
-    else:
-        PWMB_pwm.value = speed / 100.0  # Set PWM value
-        motorB.backward(speed / 100.0)
+    GPIO.output(DIR_B1, GPIO.HIGH if dir1 else GPIO.LOW)
+    GPIO.output(DIR_B2, GPIO.HIGH if dir2 else GPIO.LOW)
+    PWM_B1_pwm.ChangeDutyCycle(speed)
+    PWM_B2_pwm.ChangeDutyCycle(speed)
 
-def full_stop():
-    """Stop both motors."""
-    motorA.stop()
-    motorB.stop()
+motor_A(True, False, 100)
 
-def avoid_obstacle():
-    """Move back and turn if an obstacle is detected."""
-    if sensor.distance < 0.2:  # If distance is less than 20 cm
-        print("Obstacle detected! Moving back.")
-        motor_A(False, 50)  # Move backward
-        motor_B(False, 50)  # Move backward
-        sleep(1)            # Move back for 1 second
-        full_stop()         # Stop the motors
-        sleep(0.5)          # Pause before turning
-        print("Turning...")
-        motor_A(True, 50)   # Turn one motor forward for a turn
-        motor_B(False, 50)  # Turn the other motor backward
-        sleep(1)            # Turn for 1 second
-        full_stop()         # Stop the motors
+def move(state,speedleft,speedright):
+    GPIO.output(DIR_A1,state)
+    GPIO.output(DIR_A2,state)
+    GPIO.output(DIR_B1,state)
+    GPIO.output(DIR_B2,state)
+    PWM_A1_pwm.ChangeDutyCycle(speedleft)
+    PWM_A2_pwm.ChangeDutyCycle(speedleft)
+    PWM_B1_pwm.ChangeDutyCycle(speedleft)
+    PWM_B2_pwm.ChangeDutyCycle(speedleft)
 
-# Example usage
 try:
-   while True:
-        motor_A(True, 50)  # Move forward at 50% speed
-        motor_B(True, 50)
-        sleep(0.1)        
-        
-except KeyboardInterrupt:
-    print("Program stopped by user.")
+    move(GPIO.LOW,50,50)
+except: KeyboardInterrupt
+
 finally:
-    full_stop()  # Ensure motors stop on exit
+    GPIO.cleanup()
+    PWM_A1_pwm.stop()
+    PWM_A2_pwm.stop()
+    PWM_B1_pwm.stop()
+    PWM_B2_pwm.stop()
