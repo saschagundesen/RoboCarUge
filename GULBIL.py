@@ -1,4 +1,4 @@
-from turtle import backward
+
 import gpiozero as GPIO
 from gpiozero import Motor,LineSensor
 from time import sleep, time
@@ -114,12 +114,14 @@ def move(state,speedleft,speedright):
 def on_line():
     """Function to call when the sensor detects the line."""
     print("Line detected! Moving forward.")
-    motor_A(True, 50)  # Move forward
-    motor_B(True, 50)  # Move forward
+    motor_A(True, False, 50)  # Move forward
+    motor_B(True, False, 50)  # Move forward
 
 def off_line():
     """Function to call when the sensor does not detect the line."""
     print("Off the line! Stopping or adjusting.")
+    motor_A(True, False, 0)
+    motor_B(True, False, 0)
     time.sleep(0.5)  # Stop the motors
 
 # Attach callbacks to the line sensor
@@ -128,8 +130,8 @@ LineSensor.when_no_line = off_line
 
 try:
     while True:
-        motor_A(True, 50)  # Move forward at 50% speed
-        motor_B(True, 50)
+        motor_A(True, False, 50)  # Move forward at 50% speed
+        motor_B(True, False, 50)
         sleep(0)
        
 except KeyboardInterrupt:
