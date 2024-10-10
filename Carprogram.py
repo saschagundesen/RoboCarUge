@@ -78,8 +78,10 @@ def move(state,speedleft,speedright):
     PWM_B2_pwm.ChangeDutyCycle(speedleft)
 
 try:
-    move(GPIO.LOW,50,50)
-except: KeyboardInterrupt
+    while True:
+        move(GPIO.LOW,50,50)
+except KeyboardInterrupt:
+    pass
 
 finally:
     GPIO.cleanup()
