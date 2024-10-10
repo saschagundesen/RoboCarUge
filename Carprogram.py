@@ -1,29 +1,45 @@
+import RPi.GPIO as GPIO
 from time import sleep
-from gpiozero import Motor, PWMOutputDevice, DistanceSensor
 
 # Define the GPIO pins for the motors
 MotorA1 = 11  # Motor A forward
 MotorA2 = 10  # Motor A backward
-PWMA = 23     # PWM control for Motor A
+PWMA = 1     # PWM control for Motor A
 
 MotorB1 = 12  # Motor B forward
 MotorB2 = 13  # Motor B backward
-PWMB = 26     # PWM control for Motor B
+PWMB = 2     # PWM control for Motor B
 
 # Define the GPIO pins for the ultrasonic sensor
-TRIG = 4
-ECHO = 5
+#TRIG = 16
+#ECHO = 18
+
+# Initialize GPIO
+GPIO.setmode(GPIO.BCM)
 
 # Initialize the PWM for motors
-PWMA_pwm = PWMOutputDevice(PWMA)
-PWMB_pwm = PWMOutputDevice(PWMB)
+GPIO.setup(PWMA, GPIO.OUT)
+PWMA_pwm = GPIO.PWM(PWMA, 100)  # 100 Hz frequency
+PWMA_pwm.start(0)  # Initial duty cycle 0%
+
+GPIO.setup(PWMB, GPIO.OUT)
+PWMB_pwm = GPIO.PWM(PWMB, 100)  # 100 Hz frequency
+PWMB_pwm.start(0)  # Initial duty cycle 0%
 
 # Initialize motors
-motorA = Motor(forward=MotorA1, backward=MotorA2)
-motorB = Motor(forward=MotorB1, backward=MotorB2)
+GPIO.setup(MotorA1, GPIO.OUT)
+GPIO.setup(MotorA2, GPIO.OUT)
+motorA_forward = GPIO.PWM(MotorA1, 100)  # 100 Hz frequency
+motorA_backward = GPIO.PWM(MotorA2, 100)  # 100 Hz frequency
+
+GPIO.setup(MotorB1, GPIO.OUT)
+GPIO.setup(MotorB2, GPIO.OUT)
+motorB_forward = GPIO.PWM(MotorB1, 100)  # 100 Hz frequency
+motorB_backward = GPIO.PWM(MotorB2, 100)  # 100 Hz frequency
 
 # Initialize the ultrasonic sensor
-sensor = DistanceSensor(trigger=TRIG, echo=ECHO)
+#GPIO.setup(TRIG, GPIO.OUT)
+#GPIO.setup(ECHO, GPIO.IN)
 
 # Define motor control functions
 def motor_A(forward, speed):
@@ -33,11 +49,11 @@ def motor_A(forward, speed):
     :param speed: Speed percentage (0-100).
     """
     if forward:
-        motorA.forward(speed / 100.0)  # Convert speed to fraction
-        motorA.forward() # Move forward
+        motorA_forward.ChangeDutyCycle(speed)
+        motorA_forward.start(speed / 100.0)  # Convert speed to fraction
     else:
-        PWMA_pwm.value = speed /100.0
-        motorA.backward(speed / 100.0)
+        PWMA_pwm.ChangeDutyCycle(speed)
+        motorA_backward.ChangeDutyCycle(speed / 100.0)
 
 def motor_B(forward, speed):
     """
@@ -46,35 +62,36 @@ def motor_B(forward, speed):
     :param speed: Speed percentage (0-100).
     """
     if forward:
-        motorB.forward(speed / 100.0)
-        motorB.forward()  # Move forward
+        motorB_forward.ChangeDutyCycle(speed)
+        motorB_forward.start(speed / 100.0)
     else:
-        PWMB_pwm.value = speed / 100.0  # Set PWM value
-        motorB.backward(speed / 100.0)
+        PWMB_pwm.ChangeDutyCycle(speed)
+        motorB_backward.ChangeDutyCycle(speed / 100.0)
 
 def full_stop():
     """Stop both motors."""
-    motorA.stop()
-    motorB.stop()
+    motorA_forward.stop()
+    motorA_backward.stop()
+    motorB_forward.stop()
+    motorB_backward.stop()
 
-def avoid_obstacle():
-    """Move back and turn if an obstacle is detected."""
-    if sensor.distance < 0.2:  # If distance is less than 20 cm
-        print("Obstacle detected! Moving back.")
-        motor_A(False, 50)  # Move backward
-        motor_B(False, 50)  # Move backward
-        sleep(1)            # Move back for 1 second
-        full_stop()         # Stop the motors
-        sleep(0.5)          # Pause before turning
-        print("Turning...")
-        motor_A(True, 50)   # Turn one motor forward for a turn
-        motor_B(False, 50)  # Turn the other motor backward
-        sleep(1)            # Turn for 1 second
-        full_stop()         # Stop the motors
+#def avoid_obstacle():
+#    """Move back and turn if an obstacle is detected."""
+#    if sensor.distance < 0.2:  # If distance is less than 20 cm
+#        print("Obstacle detected! Moving back.")
+#        motor_A(False, 50)  # Move backward
+#        motor_B(False, 50)  # Move backward
+#        sleep(1)            # Move back for 1 second
+#        sleep(0.5)          # Pause before turning
+#        print("Turning...")
+#        motor_A(True, 50)   # Turn one motor forward for a turn
+#        motor_B(False, 50)  # Turn the other motor backward
+#        sleep(1)            # Turn for 1 second
+#        full_stop()         # Stop the motors
 
 # Example usage
 try:
-   while True:
+    while True:
         motor_A(True, 50)  # Move forward at 50% speed
         motor_B(True, 50)
         sleep(0.1)        
