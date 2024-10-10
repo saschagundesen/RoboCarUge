@@ -1,5 +1,5 @@
 from time import sleep
-from gpiozero import Motor, PWMOutputDevice, DistanceSensor
+from gpiozero import Motor, PWMOutputDevice #DistanceSensor
 
 # Define the GPIO pins for the motors
 MotorA1 = 26  # Motor A forward
