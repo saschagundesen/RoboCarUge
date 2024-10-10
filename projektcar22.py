@@ -11,8 +11,8 @@ MotorB2 = 21  # Motor B backward
 PWMB = 13     # PWM control for Motor B
 
 # Define the GPIO pins for the ultrasonic sensor
-TRIG = 16
-ECHO = 18
+#TRIG = 16
+#ECHO = 18
 
 #KY- 033- 15 pin
 
@@ -25,7 +25,7 @@ motorA = Motor(forward=MotorA1, backward=MotorA2)
 motorB = Motor(forward=MotorB1, backward=MotorB2)
 
 # Initialize the ultrasonic sensor
-sensor = DistanceSensor(trigger=TRIG, echo=ECHO)
+#sensor = DistanceSensor(trigger=TRIG, echo=ECHO)
 
 # Define motor control functions
 def motor_A(forward, speed):
@@ -59,7 +59,7 @@ def full_stop():
     motorA.stop()
     motorB.stop()
 
-def avoid_obstacle():
+#def avoid_obstacle():
     """Move back and turn if an obstacle is detected."""
     if sensor.distance < 0.2:  # If distance is less than 20 cm
         print("Obstacle detected! Moving back.")
