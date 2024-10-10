@@ -19,19 +19,19 @@ GPIO.setmode(GPIO.BCM)
 # Initialize the PWM for motors
 GPIO.setup(PWM_A1, GPIO.OUT)
 PWM_A1_pwm = GPIO.PWM(PWM_A1, 50)  # 50 Hz frequency
-PWM_A1_pwm.start(0)  # Initial duty cycle 0%
+PWM_A1_pwm.start(50)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_A2, GPIO.OUT)
 PWM_A2_pwm = GPIO.PWM(PWM_A2, 50)  # 50 Hz frequency
-PWM_A2_pwm.start(0)  # Initial duty cycle 0%
+PWM_A2_pwm.start(50)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_B1, GPIO.OUT)
 PWM_B1_pwm = GPIO.PWM(PWM_B1, 50)  # 50 Hz frequency
-PWM_B1_pwm.start(0)  # Initial duty cycle 0%
+PWM_B1_pwm.start(50)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_B2, GPIO.OUT)
 PWM_B2_pwm = GPIO.PWM(PWM_B2, 50)  # 50 Hz frequency
-PWM_B2_pwm.start(0)  # Initial duty cycle 0%
+PWM_B2_pwm.start(50)  # Initial duty cycle 0%
 
 # Initialize DIR pins
 GPIO.setup(DIR_A1, GPIO.OUT)
