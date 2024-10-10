@@ -63,3 +63,5 @@ def motor_B(dir1, dir2, speed):
     GPIO.output(DIR_B2, GPIO.HIGH if dir2 else GPIO.LOW)
     PWM_B1_pwm.ChangeDutyCycle(speed)
     PWM_B2_pwm.ChangeDutyCycle(speed)
+
+motor_A(True, False, 100)
