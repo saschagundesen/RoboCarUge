@@ -79,10 +79,20 @@ def move(state,speedleft,speedright):
 
 try:
     while True:
+<<<<<<< Updated upstream
         move(GPIO.LOW,50,50)
 except KeyboardInterrupt:
     pass
 
+=======
+        motor_A(True, 50)  # Move forward at 50% speed
+        motor_B(True, 50)
+        sleep(0)
+        avoid_obstacle()    # Check for obstacles while moving forward
+
+except KeyboardInterrupt:
+    print('Program stopped by user.')
+>>>>>>> Stashed changes
 finally:
     GPIO.cleanup()
     PWM_A1_pwm.stop()
