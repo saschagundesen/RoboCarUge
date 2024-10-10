@@ -2,15 +2,15 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 # Define the GPIO pins for the motors
-MotorA1 = 11  # Motor A forward
-MotorA2 = 10  # Motor A backward
-PWMA1 = 23    # PWM control for Motor A forward
-PWMA2 = 26    # PWM control for Motor A backward
+MotorA1 = 27  # Motor A forward
+MotorA2 = 28  # Motor A backward
+PWMA1 = 0    # PWM control for Motor A forward
+PWMA2 = 2    # PWM control for Motor A backward
 
-MotorB1 = 12  # Motor B forward
-MotorB2 = 13  # Motor B backward
-PWMB1 = 1     # PWM control for Motor B forward
-PWMB2 = 2     # PWM control for Motor B backward
+MotorB1 = 24  # Motor B forward
+MotorB2 = 25  # Motor B backward
+PWMB1 = 4     # PWM control for Motor B forward
+PWMB2 = 5     # PWM control for Motor B backward
 
 # Define the GPIO pins for the ultrasonic sensor
 #TRIG = 16
