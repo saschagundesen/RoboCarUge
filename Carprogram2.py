@@ -1,5 +1,8 @@
-import RPi.GPIO as GPIO
+import gpiozero as GPIO
+from gpiozero import Motor,LineSensor
 from time import sleep
+from signal import pause #signal er indbygget i python idle3
+from sshkeyboard import listen_keyboard
 
 # Motor A
 DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
@@ -17,6 +20,9 @@ PWM_B2 = 7 # 7 # PWM 2 for Motor B
 SEN_1 = 11
 # Sensor B
 SEN_2 = 16
+
+sensor = LineSensor(SEN_1, SEN_2)
+
 
 # Initialize GPIO
 GPIO.setwarnings(False)
@@ -82,6 +88,53 @@ def move(state,speedleft,speedright):
     PWM_B1_pwm.ChangeDutyCycle(speedleft)
     PWM_B2_pwm.ChangeDutyCycle(speedleft)
 
+
+
+def GoForward():
+    print('Going Forward')
+    motor_A(True, 50)  # Kører fremad 50% speed
+    motor_B(True, 50)
+
+
+def GoBackward():
+    print('Going Backward')
+    motor_A(False, 50)  # Kører baglæns 50% speed
+    motor_B(False, 50)
+
+
+def press(key):
+    if key == "f":
+        GoForward()
+    elif key == "b":
+        GoBackward()
+
+
+
+
+
+
+
+
+
+def on_line():
+    """Function to call when the sensor detects the line."""
+    print("Line detected! Moving forward.")
+    motor_A(True, 50)  # Move forward
+    motor_B(True, 50)  # Move forward
+
+def off_line():
+    """Function to call when the sensor does not detect the line."""
+    print("Off the line! Stopping or adjusting.")
+    time.sleep(0.5)  # Stop the motors
+
+# Attach callbacks to the line sensor
+LineSensor.when_line = on_line
+LineSensor.when_no_line = off_line
+
+
+
+
+
 try:
     while True:
         motor_A(True, 50)  # Move forward at 50% speed
@@ -97,4 +150,3 @@ finally:
     PWM_A2_pwm.stop()
     PWM_B1_pwm.stop()
     PWM_B2_pwm.stop()
-

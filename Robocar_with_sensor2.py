@@ -87,6 +87,11 @@ def avoid_obstacle():
 
 
 
+
+
+
+
+
 def on_line():
     """Function to call when the sensor detects the line."""
     print("Line detected! Moving forward.")
