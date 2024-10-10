@@ -16,6 +16,11 @@ DIR_B2 = 9 # 9 # DIR 2 for Motor B
 PWM_B1 = 27 # 27 # PWM 1 for Motor B
 PWM_B2 = 7 # 7 # PWM 2 for Motor B
 
+# Sensor A
+SEN_1 = 11
+# Sensor B
+SEN_2 = 16
+
 # Initialize GPIO
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)  
