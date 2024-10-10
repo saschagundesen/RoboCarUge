@@ -90,7 +90,7 @@ def press(key):
     if key == "w":
         GoForward()
 
-#change th text
+#change th texthahahah
 
 # Initialize the ultrasonic sensor
 TRIG = 18
