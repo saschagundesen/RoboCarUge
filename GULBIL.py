@@ -110,11 +110,6 @@ def press(key):
         GoBackward()
 
 
-#change th texthahahah
-
-
-
-
 # Initialize the line sensor
 
 def on_line():
