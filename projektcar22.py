@@ -60,19 +60,18 @@ def full_stop():
     motorB.stop()
 
 #def avoid_obstacle():
-    """Move back and turn if an obstacle is detected."""
-    if sensor.distance < 0.2:  # If distance is less than 20 cm
-        print("Obstacle detected! Moving back.")
-        motor_A(False, 50)  # Move backward
-        motor_B(False, 50)  # Move backward
-        sleep(1)            # Move back for 1 second
-        full_stop()         # Stop the motors
-        sleep(0.5)          # Pause before turning
-        print("Turning...")
-        motor_A(True, 50)   # Turn one motor forward for a turn
-        motor_B(False, 50)  # Turn the other motor backward
-        sleep(1)            # Turn for 1 second
-        full_stop()         # Stop the motors
+#    """Move back and turn if an obstacle is detected."""
+#    if sensor.distance < 0.2:  # If distance is less than 20 cm
+#        print("Obstacle detected! Moving back.")
+#        motor_A(False, 50)  # Move backward
+#        motor_B(False, 50)  # Move backward
+#        sleep(1)            # Move back for 1 second
+#        sleep(0.5)          # Pause before turning
+#        print("Turning...")
+#        motor_A(True, 50)   # Turn one motor forward for a turn
+#        motor_B(False, 50)  # Turn the other motor backward
+#        sleep(1)            # Turn for 1 second
+#        full_stop()         # Stop the motors
 
 # Example usage
 try:
