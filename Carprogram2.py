@@ -1,5 +1,8 @@
-import RPi.GPIO as GPIO
+import gpiozero as GPIO
+import gpiozero from Motor,LineSensor
 from time import sleep
+from signal import pause #signal er indbygget i python idle3
+from sshkeyboard import listen_keyboard
 
 # Motor A
 DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
@@ -90,14 +93,12 @@ def press(key):
 
 #change th texthahahah
 
-# Initialize the ultrasonic sensor
-TRIG = 18
-ECHO = 23
-sensor = DistanceSensor(trigger=TRIG, echo=ECHO)
+
+
 
 # Initialize the line sensor
-SENSOR_PIN = 3
-SENSOR_PIN2 = 4
+SENSOR_PIN = 11
+SENSOR_PIN2 = 16
 sensor = LineSensor(SENSOR_PIN, SENSOR_PIN2)
 
 def on_line():
@@ -114,12 +115,6 @@ def off_line():
 # Attach callbacks to the line sensor
 LineSensor.when_line = on_line
 LineSensor.when_no_line = off_line
-
-
-
-
-
-
 
 try:
     while True:
