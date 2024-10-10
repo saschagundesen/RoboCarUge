@@ -1,9 +1,5 @@
-from turtle import backward
-import gpiozero as GPIO
-from gpiozero import Motor,LineSensor
-from time import sleep, time
-from signal import pause #signal er indbygget i python idle3
-from sshkeyboard import listen_keyboard
+import RPi.GPIO as GPIO
+from time import sleep
 
 # Motor A
 DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
@@ -16,14 +12,6 @@ DIR_B1 = 17 # skiftes # DIR 1 for Motor B
 DIR_B2 = 9 # 9 # DIR 2 for Motor B
 PWM_B1 = 27 # 27 # PWM 1 for Motor B
 PWM_B2 = 7 # 7 # PWM 2 for Motor B
-
-# Sensor A
-SEN_1 = 11
-# Sensor B
-SEN_2 = 16
-
-sensor = LineSensor(SEN_1, SEN_2)
-
 
 # Initialize GPIO
 GPIO.setwarnings(False)
@@ -96,26 +84,19 @@ def GoForward():
     motor_A(True, 50)  # Kører fremad 50% speed
     motor_B(True, 50)
 
-
-def GoBackward():
-    print('Going Backward')
-    motor_A(False, 50)  # Kører baglæns 50% speed
-    motor_B(False, 50)
-
-
 def press(key):
-    if key == "f":
+    if key == "w":
         GoForward()
-    elif key == "b":
-        GoBackward()
 
-
-#change th texthahahah
-
-
-
+# Initialize the ultrasonic sensor
+TRIG = 18
+ECHO = 23
+sensor = DistanceSensor(trigger=TRIG, echo=ECHO)
 
 # Initialize the line sensor
+SENSOR_PIN = 11
+SENSOR_PIN2 = 16
+sensor = LineSensor(SENSOR_PIN, SENSOR_PIN2)
 
 def on_line():
     """Function to call when the sensor detects the line."""
@@ -132,12 +113,19 @@ def off_line():
 LineSensor.when_line = on_line
 LineSensor.when_no_line = off_line
 
+
+
+
+
+
+
 try:
     while True:
         motor_A(True, 50)  # Move forward at 50% speed
         motor_B(True, 50)
         sleep(0)
-       
+        avoid_obstacle()    # Check for obstacles while moving forward
+
 except KeyboardInterrupt:
     print('Program stopped by user.')
 finally:
