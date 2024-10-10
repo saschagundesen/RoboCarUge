@@ -1,3 +1,6 @@
+import RPi.GPIO as GPIO
+from time import sleep
+
 # Motor A
 DIR_A1 = 17  # DIR 1 for Motor A
 DIR_A2 = 23  # DIR 2 for Motor A
