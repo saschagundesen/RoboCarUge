@@ -145,9 +145,6 @@ sensor_B.when_no_line = off_line_B
 try:
     while True:
         move(GPIO.LOW,50,50)
-        motor_A(True, False, 50)  # Move forward at 50% speed
-        motor_B(True, False, 50)
-        sleep(0)
        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
