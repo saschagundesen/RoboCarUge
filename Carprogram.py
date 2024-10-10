@@ -4,14 +4,14 @@ from time import sleep
 # Motor A
 DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
 DIR_A2 = 11 # 11 # DIR 2 for Motor A
-PWM_A1 = 24 # 24 # PWM 1 for Motor A
-PWM_A2 = 10 # 10 # PWM 2 for Motor A
+PWM_A1 = 18 # 24 # PWM 1 for Motor A
+PWM_A2 = 23 # 10 # PWM 2 for Motor A
 
 # Motor B
 DIR_B1 = 17 # skiftes # DIR 1 for Motor B
-DIR_B2 = 9 # 9 # DIR 2 for Motor B
-PWM_B1 = 27 # 27 # PWM 1 for Motor B
-PWM_B2 = 7 # 7 # PWM 2 for Motor B
+DIR_B2 = 21 # 9 # DIR 2 for Motor B
+PWM_B1 = 13 # 27 # PWM 1 for Motor B
+PWM_B2 = 26 # 7 # PWM 2 for Motor B
 
 # Initialize GPIO
 GPIO.setwarnings(False)
