@@ -11,7 +11,7 @@ MotorB2 = 21  # Motor B backward
 PWMB = 13     # PWM control for Motor B
 
 # Define the GPIO pins for the ultrasonic sensor
-TRIG = 15
+TRIG = 16
 ECHO = 18
 
 #KY- 033- 15 pin
