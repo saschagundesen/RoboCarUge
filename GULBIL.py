@@ -22,7 +22,9 @@ SEN_1 = 11
 # Sensor B
 SEN_2 = 16
 
-sensor = LineSensor(SEN_1, SEN_2)
+#sensor = LineSensor(SEN_1, SEN_2)
+sensor_A = LineSensor(SEN_1)
+sensor_B = LineSensor(SEN_2)
 
 
 # Initialize GPIO
@@ -111,22 +113,34 @@ def move(state,speedleft,speedright):
 
 # Initialize the line sensor
 
-def on_line():
-    """Function to call when the sensor detects the line."""
-    print("Line detected! Moving forward.")
-    motor_A(True, False, 50)  # Move forward
-    motor_B(True, False, 50)  # Move forward
+#Define callback functions for each sensor
+def on_line_A():
+    """Function to call when sensor A detects the line."""
+    print("Sensor A: Line detected! Moving forward.")
+    motor_A(True, False, 50)  # Motor A moves forward with 50% speed
 
-def off_line():
-    """Function to call when the sensor does not detect the line."""
-    print("Off the line! Stopping or adjusting.")
-    motor_A(True, False, 0)
-    motor_B(True, False, 0)
-    time.sleep(0.5)  # Stop the motors
+def off_line_A():
+    """Function to call when sensor A does not detect the line."""
+    print("Sensor A: Off the line! Stopping.")
+    motor_A(False, False, 0)  # Stop Motor A
 
-# Attach callbacks to the line sensor
-LineSensor.when_line = on_line
-LineSensor.when_no_line = off_line
+def on_line_B():
+    """Function to call when sensor B detects the line."""
+    print("Sensor B: Line detected! Moving forward.")
+    motor_B(True, False, 50)  # Motor B moves forward with 50% speed
+
+def off_line_B():
+    """Function to call when sensor B does not detect the line."""
+    print("Sensor B: Off the line! Stopping.")
+    motor_B(False, False, 0)  # Stop Motor B
+
+#Attach callbacks to the line sensors
+sensor_A.when_line = on_line_A
+sensor_A.when_no_line = off_line_A
+
+sensor_B.when_line = on_line_B
+sensor_B.when_no_line = off_line_B
+
 
 try:
     while True:
