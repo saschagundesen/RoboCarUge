@@ -2,6 +2,11 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 # Motor A
+# DIR_A1 = højre forhjul
+# DIR_A2 = venstre forhjul
+# DIR_B1 = højre baghjul
+# DIR_B2 = venstre baghjul
+
 DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
 DIR_A2 = 23 # 11 # DIR 2 for Motor A
 PWM_A1 = 18 # 24 # PWM 1 for Motor A
@@ -70,8 +75,8 @@ motor_A(True, False, 100)
 def move(state,speedleft,speedright):
     GPIO.output(DIR_A1,GPIO.HIGH)
     GPIO.output(DIR_A2,GPIO.HIGH)
-    GPIO.output(DIR_B1,GPIO.LOW)
-    GPIO.output(DIR_B2,GPIO.HIGH)
+    GPIO.output(DIR_B1,GPIO.HIGH)
+    GPIO.output(DIR_B2,GPIO.LOW)
     PWM_A1_pwm.ChangeDutyCycle(speedleft)
     PWM_A2_pwm.ChangeDutyCycle(speedleft)
     PWM_B1_pwm.ChangeDutyCycle(speedleft)
