@@ -15,24 +15,24 @@ PWM_B2 = 7 # 7 # PWM 2 for Motor B
 
 # Initialize GPIO
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BCM)  
 
 # Initialize the PWM for motors
 GPIO.setup(PWM_A1, GPIO.OUT)
 PWM_A1_pwm = GPIO.PWM(PWM_A1, 50)  # 50 Hz frequency
-PWM_A1_pwm.start(50)  # Initial duty cycle 0%
+PWM_A1_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_A2, GPIO.OUT)
 PWM_A2_pwm = GPIO.PWM(PWM_A2, 50)  # 50 Hz frequency
-PWM_A2_pwm.start(50)  # Initial duty cycle 0%
+PWM_A2_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_B1, GPIO.OUT)
 PWM_B1_pwm = GPIO.PWM(PWM_B1, 50)  # 50 Hz frequency
-PWM_B1_pwm.start(50)  # Initial duty cycle 0%
+PWM_B1_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_B2, GPIO.OUT)
 PWM_B2_pwm = GPIO.PWM(PWM_B2, 50)  # 50 Hz frequency
-PWM_B2_pwm.start(50)  # Initial duty cycle 0%
+PWM_B2_pwm.start(0)  # Initial duty cycle 0%
 
 # Initialize DIR pins
 GPIO.setup(DIR_A1, GPIO.OUT)
@@ -66,3 +66,24 @@ def motor_B(dir1, dir2, speed):
     PWM_B2_pwm.ChangeDutyCycle(speed)
 
 motor_A(True, False, 100)
+
+def move(state,speedleft,speedright):
+    GPIO.output(DIR_A1,state)
+    GPIO.output(DIR_A2,state)
+    GPIO.output(DIR_B1,state)
+    GPIO.output(DIR_B2,state)
+    PWM_A1_pwm.ChangeDutyCycle(speedleft)
+    PWM_A2_pwm.ChangeDutyCycle(speedleft)
+    PWM_B1_pwm.ChangeDutyCycle(speedleft)
+    PWM_B2_pwm.ChangeDutyCycle(speedleft)
+
+try:
+    move(GPIO.LOW,50,50)
+except: KeyboardInterrupt
+
+finally:
+    GPIO.cleanup()
+    PWM_A1_pwm.stop()
+    PWM_A2_pwm.stop()
+    PWM_B1_pwm.stop()
+    PWM_B2_pwm.stop()
