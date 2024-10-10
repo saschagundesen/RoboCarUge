@@ -4,13 +4,13 @@ from time import sleep
 # Define the GPIO pins for the motors
 MotorA1 = 11  # Motor A forward
 MotorA2 = 10  # Motor A backward
-PWMA1 = 23    # PWM control for Motor A forward
-PWMA2 = 26    # PWM control for Motor A backward
+PWMA1 = 23 
+PWMA2 = 26    # PWM control for Motor A
 
 MotorB1 = 12  # Motor B forward
 MotorB2 = 13  # Motor B backward
-PWMB1 = 1     # PWM control for Motor B forward
-PWMB2 = 2     # PWM control for Motor B backward
+PWMB1 =      # PWM control for Motor B
+PWMB2 = 
 
 # Define the GPIO pins for the ultrasonic sensor
 #TRIG = 16
@@ -20,21 +20,13 @@ PWMB2 = 2     # PWM control for Motor B backward
 GPIO.setmode(GPIO.BCM)
 
 # Initialize the PWM for motors
-GPIO.setup(PWMA1, GPIO.OUT)
-PWMA1_pwm = GPIO.PWM(PWMA1, 100)  # 100 Hz frequency
-PWMA1_pwm.start(0)  # Initial duty cycle 0%
+GPIO.setup(PWMA, GPIO.OUT)
+PWMA_pwm = GPIO.PWM(PWMA, 100)  # 100 Hz frequency
+PWMA_pwm.start(0)  # Initial duty cycle 0%
 
-GPIO.setup(PWMA2, GPIO.OUT)
-PWMA2_pwm = GPIO.PWM(PWMA2, 100)  # 100 Hz frequency
-PWMA2_pwm.start(0)  # Initial duty cycle 0%
-
-GPIO.setup(PWMB1, GPIO.OUT)
-PWMB1_pwm = GPIO.PWM(PWMB1, 100)  # 100 Hz frequency
-PWMB1_pwm.start(0)  # Initial duty cycle 0%
-
-GPIO.setup(PWMB2, GPIO.OUT)
-PWMB2_pwm = GPIO.PWM(PWMB2, 100)  # 100 Hz frequency
-PWMB2_pwm.start(0)  # Initial duty cycle 0%
+GPIO.setup(PWMB, GPIO.OUT)
+PWMB_pwm = GPIO.PWM(PWMB, 100)  # 100 Hz frequency
+PWMB_pwm.start(0)  # Initial duty cycle 0%
 
 # Initialize motors
 GPIO.setup(MotorA1, GPIO.OUT)
@@ -59,13 +51,11 @@ def motor_A(forward, speed):
     :param speed: Speed percentage (0-100).
     """
     if forward:
-        PWMA1_pwm.ChangeDutyCycle(speed)
-        motorA_forward.ChangeDutyCycle(speed / 100.0)
-        motorA_forward.start()
+        motorA_forward.ChangeDutyCycle(speed)
+        motorA_forward.start(speed / 100.0)  # Convert speed to fraction
     else:
-        PWMA2_pwm.ChangeDutyCycle(speed)
+        PWMA_pwm.ChangeDutyCycle(speed)
         motorA_backward.ChangeDutyCycle(speed / 100.0)
-        motorA_backward.start()
 
 def motor_B(forward, speed):
     """
@@ -74,13 +64,11 @@ def motor_B(forward, speed):
     :param speed: Speed percentage (0-100).
     """
     if forward:
-        PWMB1_pwm.ChangeDutyCycle(speed)
-        motorB_forward.ChangeDutyCycle(speed / 100.0)
-        motorB_forward.start()
+        motorB_forward.ChangeDutyCycle(speed)
+        motorB_forward.start(speed / 100.0)
     else:
-        PWMB2_pwm.ChangeDutyCycle(speed)
+        PWMB_pwm.ChangeDutyCycle(speed)
         motorB_backward.ChangeDutyCycle(speed / 100.0)
-        motorB_backward.start()
 
 def full_stop():
     """Stop both motors."""
@@ -106,4 +94,11 @@ def full_stop():
 # Example usage
 try:
     while True:
-        motor_A(True, 50)  # Move forward at
+        motor_A(True, 50)  # Move forward at 50% speed
+        motor_B(True, 50)
+        sleep(0.1)        
+        
+except KeyboardInterrupt:
+    print("Program stopped by user.")
+finally:
+    full_stop()  # Ensure motors stop on exit
