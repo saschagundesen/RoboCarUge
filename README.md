@@ -19,4 +19,3 @@ shdaihdi
 print  ('hej')
 print ('det virker)
 
-print('Hello')
