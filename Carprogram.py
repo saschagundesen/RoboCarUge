@@ -68,10 +68,10 @@ def motor_B(dir1, dir2, speed):
 motor_A(True, False, 100)
 
 def move(state,speedleft,speedright):
-    GPIO.output(DIR_A1,state)
-    GPIO.output(DIR_A2,state)
-    GPIO.output(DIR_B1,state)
-    GPIO.output(DIR_B2,state)
+    GPIO.output(DIR_A1,GPIO.HIGH)
+    GPIO.output(DIR_A2,GPIO.HIGH)
+    GPIO.output(DIR_B1,GPIO.HIGH)
+    GPIO.output(DIR_B2,GPIO.HIGH)
     PWM_A1_pwm.ChangeDutyCycle(speedleft)
     PWM_A2_pwm.ChangeDutyCycle(speedleft)
     PWM_B1_pwm.ChangeDutyCycle(speedleft)
