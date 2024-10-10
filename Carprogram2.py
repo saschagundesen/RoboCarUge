@@ -1,7 +1,5 @@
 import RPi.GPIO as GPIO
 from time import sleep
-from gpiozero import DistanceSensor,LineSensor
-from signal import pause #signal er indbygget i python idle3
 
 # Motor A
 DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
@@ -130,10 +128,6 @@ LineSensor.when_no_line = off_line
 
 try:
     while True:
-        move(GPIO.LOW,50,50)
-except KeyboardInterrupt:
-    pass
-
         motor_A(True, 50)  # Move forward at 50% speed
         motor_B(True, 50)
         sleep(0)
@@ -147,4 +141,3 @@ finally:
     PWM_A2_pwm.stop()
     PWM_B1_pwm.stop()
     PWM_B2_pwm.stop()
-
