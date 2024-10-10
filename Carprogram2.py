@@ -1,3 +1,4 @@
+from turtle import backward
 import gpiozero as GPIO
 from gpiozero import Motor,LineSensor
 from time import sleep, time
@@ -95,9 +96,19 @@ def GoForward():
     motor_A(True, 50)  # Kører fremad 50% speed
     motor_B(True, 50)
 
+
+def GoBackward():
+    print('Going Backward')
+    motor_A(False, 50)  # Kører baglæns 50% speed
+    motor_B(False, 50)
+
+
 def press(key):
-    if key == "w":
+    if key == "f":
         GoForward()
+    elif key == "b":
+        GoBackward()
+
 
 #change th texthahahah
 
@@ -135,4 +146,3 @@ finally:
     PWM_A2_pwm.stop()
     PWM_B1_pwm.stop()
     PWM_B2_pwm.stop()
-    
