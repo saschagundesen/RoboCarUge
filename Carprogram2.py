@@ -1,6 +1,6 @@
 import gpiozero as GPIO
 from gpiozero import Motor,LineSensor
-from time import sleep
+from time import sleep, time
 from signal import pause #signal er indbygget i python idle3
 from sshkeyboard import listen_keyboard
 
@@ -20,6 +20,9 @@ PWM_B2 = 7 # 7 # PWM 2 for Motor B
 SEN_1 = 11
 # Sensor B
 SEN_2 = 16
+
+sensor = LineSensor(SEN_1, SEN_2)
+
 
 # Initialize GPIO
 GPIO.setwarnings(False)
@@ -102,9 +105,6 @@ def press(key):
 
 
 # Initialize the line sensor
-SENSOR_PIN = 11
-SENSOR_PIN2 = 16
-sensor = LineSensor(SENSOR_PIN, SENSOR_PIN2)
 
 def on_line():
     """Function to call when the sensor detects the line."""
@@ -126,8 +126,7 @@ try:
         motor_A(True, 50)  # Move forward at 50% speed
         motor_B(True, 50)
         sleep(0)
-        avoid_obstacle()    # Check for obstacles while moving forward
-
+       
 except KeyboardInterrupt:
     print('Program stopped by user.')
 finally:
