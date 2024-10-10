@@ -2,13 +2,13 @@ from time import sleep
 from gpiozero import Motor, PWMOutputDevice #DistanceSensor
 
 # Define the GPIO pins for the motors
-MotorA1 = 26  # Motor A forward
-MotorA2 = 24  # Motor A backward
-PWMA = 12     # PWM control for Motor A
+MotorA1 = 11  # Motor A forward
+MotorA2 = 10  # Motor A backward
+PWMA = 1     # PWM control for Motor A
 
-MotorB1 = 19  # Motor B forward
-MotorB2 = 21  # Motor B backward
-PWMB = 13     # PWM control for Motor B
+MotorB1 = 12  # Motor B forward
+MotorB2 = 13  # Motor B backward
+PWMB = 2     # PWM control for Motor B
 
 # Define the GPIO pins for the ultrasonic sensor
 #TRIG = 16
