@@ -93,14 +93,12 @@ def move(state,speedleft,speedright):
 
 def GoForward():
     print('Going Forward')
-    motor_A(True, 50)  # Kører fremad 50% speed
-    motor_B(True, 50)
+    move(GPIO.HIGH, 50)  # Kører fremad 50% speed
 
 
 def GoBackward():
     print('Going Backward')
-    motor_A(False, 50)  # Kører baglæns 50% speed
-    motor_B(False, 50)
+    move(GPIO.LOW, 50)  # Kører baglæns 50% speed
 
 
 def press(key):

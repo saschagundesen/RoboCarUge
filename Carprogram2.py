@@ -13,6 +13,11 @@ DIR_B2 = 9 # 9 # DIR 2 for Motor B
 PWM_B1 = 27 # 27 # PWM 1 for Motor B
 PWM_B2 = 7 # 7 # PWM 2 for Motor B
 
+# Sensor A
+SEN_1 = 11
+# Sensor B
+SEN_2 = 16
+
 # Initialize GPIO
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)  
@@ -77,48 +82,6 @@ def move(state,speedleft,speedright):
     PWM_B1_pwm.ChangeDutyCycle(speedleft)
     PWM_B2_pwm.ChangeDutyCycle(speedleft)
 
-
-
-def GoForward():
-    print('Going Forward')
-    motor_A(True, 50)  # Kører fremad 50% speed
-    motor_B(True, 50)
-
-def press(key):
-    if key == "w":
-        GoForward()
-
-# Initialize the ultrasonic sensor
-TRIG = 18
-ECHO = 23
-sensor = DistanceSensor(trigger=TRIG, echo=ECHO)
-
-# Initialize the line sensor
-SENSOR_PIN = 11
-SENSOR_PIN2 = 16
-sensor = LineSensor(SENSOR_PIN, SENSOR_PIN2)
-
-def on_line():
-    """Function to call when the sensor detects the line."""
-    print("Line detected! Moving forward.")
-    motor_A(True, 50)  # Move forward
-    motor_B(True, 50)  # Move forward
-
-def off_line():
-    """Function to call when the sensor does not detect the line."""
-    print("Off the line! Stopping or adjusting.")
-    time.sleep(0.5)  # Stop the motors
-
-# Attach callbacks to the line sensor
-LineSensor.when_line = on_line
-LineSensor.when_no_line = off_line
-
-
-
-
-
-
-
 try:
     while True:
         motor_A(True, 50)  # Move forward at 50% speed
@@ -134,3 +97,4 @@ finally:
     PWM_A2_pwm.stop()
     PWM_B1_pwm.stop()
     PWM_B2_pwm.stop()
+
