@@ -1,5 +1,5 @@
 
-import gpiozero as GPIO
+import RPi.GPIO as GPIO
 from gpiozero import LineSensor
 from time import sleep, time
 from signal import pause #signal er indbygget i python idle3
