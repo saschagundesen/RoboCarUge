@@ -3,7 +3,7 @@ import gpiozero as GPIO
 from gpiozero import Motor,LineSensor
 from time import sleep, time
 from signal import pause #signal er indbygget i python idle3
-from sshkeyboard import listen_keyboard
+#from sshkeyboard import listen_keyboard
 
 # Motor A
 DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
@@ -92,21 +92,21 @@ def move(state,speedleft,speedright):
 
 
 
-def GoForward():
-    print('Going Forward')
-    move(GPIO.HIGH, 50,50)  # Kører fremad 50% speed
+#def GoForward():
+#    print('Going Forward')
+#    move(GPIO.HIGH, 50,50)  # Kører fremad 50% speed
 
 
-def GoBackward():
-    print('Going Backward')
-    move(GPIO.LOW, 50, 50)  # Kører baglæns 50% speed
+#def GoBackward():
+#    print('Going Backward')
+#    move(GPIO.LOW, 50, 50)  # Kører baglæns 50% speed
 
 
-def press(key):
-    if key == "f":
-        GoForward()
-    elif key == "b":
-        GoBackward()
+#def press(key):
+#    if key == "f":
+#        GoForward()
+#    elif key == "b":
+#        GoBackward()
 
 
 # Initialize the line sensor
