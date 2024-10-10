@@ -14,6 +14,7 @@ PWM_B1 = 27 # 27 # PWM 1 for Motor B
 PWM_B2 = 7 # 7 # PWM 2 for Motor B
 
 # Initialize GPIO
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
 # Initialize the PWM for motors
