@@ -1,6 +1,6 @@
 
 import gpiozero as GPIO
-from gpiozero import Motor,LineSensor
+from gpiozero import LineSensor
 from time import sleep, time
 from signal import pause #signal er indbygget i python idle3
 #from sshkeyboard import listen_keyboard
