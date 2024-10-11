@@ -117,8 +117,8 @@ def move(state,speedleft,speedright):
 def on_line_A():
         print("Sensor A: Line detected! Adjusting motors.")
         # Motor A continues forward, Motor B slows down or adjusts
-        motor_A(True, False, 60)  # Move Motor A forward at 50% speed
-        motor_B(True, False, 0)  # Slow Motor B to turn towards the line
+        motor_A(True, False, 0)  # Move Motor A forward at 50% speed
+        motor_B(True, False, 60)  # Slow Motor B to turn towards the line
 
 def off_line_A():
         print("Sensor A: Off the line! Adjusting motors.")
@@ -151,9 +151,9 @@ sensor_B.when_no_line = off_line_B
 try:
     while True:
         move(GPIO.LOW,60,60)
-        print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(80))
+        print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
         print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
-        sleep(0.3)
+        sleep(0.5)
        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
