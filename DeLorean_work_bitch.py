@@ -119,28 +119,25 @@ def move(state, speedleft, speedright):
 
 #Define callback functions for each sensor
 
-def on_line_A():
+while True:
+    if sensor_A_state:
         print("Sensor A: Line detected! Adjusting motors.")
-        # Motor A continues forward, Motor B slows down or adjusts
         motor_A(True, False, 60)  # Move Motor A forward at 50% speed
-        motor_B(True, False, 30)  # Slow Motor B to turn towards the line
-
-def off_line_A():
+        motor_B(True, False, 0)  # Slow Motor B to turn towards the line
+    else:
         print("Sensor A: Off the line! Adjusting motors.")
-        # Adjust motors when the sensor loses the line
-        motor_A(True, False, 30)  # Stop Motor A
+        motor_A(True, False, 0)  # Stop Motor A
         motor_B(True, False, 60)  # Speed up Motor B to adjust course
 
-def on_line_B():
+    if sensor_B_state:
         print("Sensor B: Line detected! Adjusting motors.")
-        # Motor B continues forward, Motor A slows down or adjusts
-        motor_A(True, False, 30)  # Slow Motor A to turn towards the line
-        motor_B(True, False, 60)  # Move Motor B forward at 50% speed
-
-def off_line_B():
+        motor_A(True, False, 60)  # Slow Motor A to turn towards the line
+        motor_B(True, False, 0)  # Move Motor B forward at 50% speed
+    else:
         print("Sensor B: Off the line! Adjusting motors.")
         motor_A(True, False, 60)  # Speed up Motor A to adjust course
-        motor_B(True, False, 30)  # Stop Motor B
+        motor_B(True, False, 0)  # Stop Motor B
+
 
 
 
@@ -179,7 +176,7 @@ try:
         print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
         print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
         sleep(0.3)
-        
+
 except KeyboardInterrupt:
     print('Programmet er stoppet')
     pass
