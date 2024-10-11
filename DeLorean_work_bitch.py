@@ -144,24 +144,24 @@ def off_line_B():
 
 
 
-last_detection_A = time()
+#last_detection_A = time()
 
 
-debounce_time = 0.2  # 200 ms debounce
+#debounce_time = 0.2  # 200 ms debounce
 
-def on_line_A():
+#def on_line_A():
    global last_detection_A
-if (time() - last_detection_A > debounce_time):
-        last_detection_A = time()
-        print("Sensor A: Line detected after debounce.")
-        motor_A(True, False, 50)
+#if (time() - last_detection_A > debounce_time):
+       # last_detection_A = time()
+        #print("Sensor A: Line detected after debounce.")
+        #motor_A(True, False, 50)
 
-def off_line_A():
-    global last_detection_A
-if (time() - last_detection_A > debounce_time):
-        last_detection_A = time()
-        print("Sensor A: Off the line after debounce.")
-        motor_A(False, False, 0)
+#def off_line_A():
+ #   global last_detection_A
+#if (time() - last_detection_A > debounce_time):
+ #       last_detection_A = time()
+  #      print("Sensor A: Off the line after debounce.")
+   #     motor_A(False, False, 0)
 
 
 
@@ -187,7 +187,7 @@ try:
 
         sleep(0.1)  # Adjust the sleep time to control the sensitivity of the line detection
 
-        
+
 except KeyboardInterrupt:
     print('Programmet er stoppet')
     pass
