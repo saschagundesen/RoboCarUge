@@ -90,28 +90,37 @@ def move(state, speedleft, speedright):
 def GoForward():
  print('Going Forward')
 
-
-
 def GoBackward():
     print('Going Backward')
     
+def TurnRight():
+    print('Going Right')
 
+def TurnLeft():
+    print('Going Left')
 
 def press(key):
-    if key == "f":
-    GoForward()
+    if key == "w":
+     GoForward()
 
-    elif key == "b":
-    GoBackward()
+    if key == "s":
+     GoBackward()
+
+    if key == "a":
+     TurnLeft()
+
+    if key == "d":
+     TurnRight()
 
 
 
 
 try:
     while True:
-    move(GPIO.LOW,50,50)  
+        listen_keyboard(on_press = press)
+        #move(GPIO.LOW,50,50)  
 
-    sleep(0.3)  # Adjust the sleep time to control the sensitivity of the line detection
+        sleep(0.3)  # Adjust the sleep time to control the sensitivity of the line detection
        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
