@@ -165,8 +165,7 @@ if (time() - last_detection_A > debounce_time):
 sensor_A.when_line = on_line_A
 sensor_A.when_no_line = off_line_A
 
-sensor_B.when_line = on_line_B
-sensor_B.when_no_line = off_line_B
+
 
 
 try:
