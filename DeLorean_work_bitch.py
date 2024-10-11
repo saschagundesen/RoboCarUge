@@ -25,6 +25,7 @@ SEN_2 = 16
 #sensor = LineSensor(SEN_1, SEN_2)
 sensor_A = LineSensor(SEN_1)
 sensor_B = LineSensor(SEN_2)
+#prøv
 
 
 # Initialize GPIO
