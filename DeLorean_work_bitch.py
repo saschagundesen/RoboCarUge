@@ -120,7 +120,7 @@ def move(state, speedleft, speedright):
 #Define callback functions for each sensor
 
 while True:
-    if sensor_A_state:
+    if sensor_A:
         print("Sensor A: Line detected! Adjusting motors.")
         motor_A(True, False, 60)  # Move Motor A forward at 50% speed
         motor_B(True, False, 0)  # Slow Motor B to turn towards the line
@@ -129,7 +129,7 @@ while True:
         motor_A(True, False, 0)  # Stop Motor A
         motor_B(True, False, 60)  # Speed up Motor B to adjust course
 
-    if sensor_B_state:
+    if sensor_B:
         print("Sensor B: Line detected! Adjusting motors.")
         motor_A(True, False, 60)  # Slow Motor A to turn towards the line
         motor_B(True, False, 0)  # Move Motor B forward at 50% speed
