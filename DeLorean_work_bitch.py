@@ -138,6 +138,22 @@ def off_line_B():
         motor_A(True, False, 0)  # Speed up Motor A to adjust course
         motor_B(True, False, 60)  # Stop Motor B
 
+last_detection_A = time()
+debounce_time = 0.2  # 200 ms debounce
+
+def on_line_A():
+    global last_detection_A
+    if (time() - last_detection_A > debounce_time):
+        last_detection_A = time()
+        print("Sensor A: Line detected after debounce.")
+        motor_A(True, False, 50)
+
+def off_line_A():
+    global last_detection_A
+    if (time() - last_detection_A > debounce_time):
+        last_detection_A = time()
+        print("Sensor A: Off the line after debounce.")
+        motor_A(False, False, 0)
 
 
 #Attach callbacks to the line sensors
