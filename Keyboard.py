@@ -89,7 +89,7 @@ def move(state, speedleft, speedright):
 
 def GoForward():
     print('Going Forward')
-    motor_A(True,True, 50)  # Kører fremad 50% speed
+    motor_A(False,True, 50)  # Kører fremad 50% speed
     motor_B(False,True, 50)
 
 
