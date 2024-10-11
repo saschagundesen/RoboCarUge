@@ -117,8 +117,8 @@ def move(state,speedleft,speedright):
 def on_line_A():
         print("Sensor A: Line detected! Adjusting motors.")
         # Motor A continues forward, Motor B slows down or adjusts
-        motor_A(True, False, 0)  # Move Motor A forward at 50% speed
-        motor_B(True, False, 60)  # Slow Motor B to turn towards the line
+        motor_A(True, False, 60)  # Move Motor A forward at 50% speed
+        motor_B(True, False, 0)  # Slow Motor B to turn towards the line
 
 def off_line_A():
         print("Sensor A: Off the line! Adjusting motors.")
@@ -127,9 +127,10 @@ def off_line_A():
         motor_B(True, False, 60)  # Speed up Motor B to adjust course
 
 def on_line_B():
+        
         print("Sensor B: Line detected! Adjusting motors.")
         # Motor B continues forward, Motor A slows down or adjusts
-        motor_A(True, False, 20)  # Slow Motor A to turn towards the line
+        motor_A(True, False, 25)  # Slow Motor A to turn towards the line
         motor_B(True, False, 60)  # Move Motor B forward at 50% speed
 
 def off_line_B():
@@ -137,22 +138,7 @@ def off_line_B():
         motor_A(True, False, 60)  # Speed up Motor A to adjust course
         motor_B(True, False, 0)  # Stop Motor B
 
-last_detection_A = time()
-debounce_time = 0.5  # 500 ms debounce
 
-def on_line_A():
-    global last_detection_A
-    if  (time() - last_detection_A > debounce_time):
-        last_detection_A = time()
-        print("Sensor A: Line detected after debounce.")
-        motor_A(True, False, 50)
-
-def off_line_A():
-    global last_detection_A
-    if (time() - last_detection_A > debounce_time):
-        last_detection_A = time()
-        print("Sensor A: Off the line after debounce.")
-        motor_A(False, False, 0)
 
 #Attach callbacks to the line sensors
 sensor_A.when_line = on_line_A
@@ -167,7 +153,7 @@ try:
         move(GPIO.LOW,80,80)
         print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(80))
         print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
-        sleep(0.1)
+        sleep(0.3)
        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
