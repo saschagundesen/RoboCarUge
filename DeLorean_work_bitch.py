@@ -175,11 +175,19 @@ sensor_A.when_no_line = off_line_A
 
 try:
     while True:
-        move(GPIO.LOW,60,60)
-        print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
-        print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
-        sleep(0.3)
-       
+        if sensor_A.line_detected:
+            on_line_A()
+        else:
+            off_line_A()
+
+        if sensor_B.line_detected:
+            on_line_B()
+        else:
+            off_line_B()
+
+        sleep(0.1)  # Adjust the sleep time to control the sensitivity of the line detection
+
+        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
     pass
