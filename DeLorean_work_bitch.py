@@ -143,7 +143,7 @@ def off_line_B():
         motor_B(True, False, 60)  # Stop Motor B
 
 last_detection_A = time()
-last_detection_B = time()
+
 
 debounce_time = 0.4  # 400 ms debounce
 
@@ -161,19 +161,7 @@ def off_line_A():
         print("Sensor A: Off the line after debounce.")
         motor_A(False, False, 0)
 
-def on_line_B():
-    global last_detection_B
-    if (time() - last_detection_B > debounce_time):
-        last_detection_B = time()
-        print("Sensor B: Line detected after debounce.")
-        motor_B(True, False, 50)  # Slow down or adjust Motor B
 
-def off_line_B():
-    global last_detection_B
-    if (time() - last_detection_B > debounce_time):
-        last_detection_B = time()
-        print("Sensor B: Off the line after debounce.")
-        motor_B(False, False, 20)  # Reduce speed instead of stopping
 
 
 #Attach callbacks to the line sensors
