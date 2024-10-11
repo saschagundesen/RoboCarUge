@@ -131,7 +131,6 @@ def off_line_A():
         motor_B(True, False, 60)  # Speed up Motor B to adjust course
 
 def on_line_B():
-        
         print("Sensor B: Line detected! Adjusting motors.")
         # Motor B continues forward, Motor A slows down or adjusts
         motor_A(True, False, 60)  # Slow Motor A to turn towards the line
@@ -139,13 +138,13 @@ def on_line_B():
 
 def off_line_B():
         print("Sensor B: Off the line! Adjusting motors.")
-        motor_A(True, False, 0)  # Speed up Motor A to adjust course
+        motor_A(True, False, 60)  # Speed up Motor A to adjust course
         motor_B(True, False, 0)  # Stop Motor B
 
 last_detection_A = time()
 
 
-debounce_time = 0.4  # 400 ms debounce
+debounce_time = 0.2  # 200 ms debounce
 
 def on_line_A():
     global last_detection_A
