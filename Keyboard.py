@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 from gpiozero import LineSensor
 from time import sleep, time
 from signal import pause #signal er indbygget i python idle3
-#from sshkeyboard import listen_keyboard
+from sshkeyboard import listen_keyboard
 
 # Motor A
 DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
@@ -15,16 +15,6 @@ DIR_B1 = 17 # skiftes # DIR 1 for Motor B
 DIR_B2 = 21 # 9 # DIR 2 for Motor B
 PWM_B1 = 13 # 27 # PWM 1 for Motor B
 PWM_B2 = 26 # 7 # PWM 2 for Motor B
-
-# Sensor A
-SEN_1 = 11
-# Sensor B
-SEN_2 = 16
-
-#sensor = LineSensor(SEN_1, SEN_2)
-sensor_A = LineSensor(SEN_1)
-sensor_B = LineSensor(SEN_2)
-#prøv
 
 
 # Initialize GPIO
@@ -97,88 +87,31 @@ def move(state, speedleft, speedright):
 
 
 
-#def GoForward():
-#    print('Going Forward')
-#    move(GPIO.HIGH, 50,50)  # Kører fremad 50% speed
+def GoForward():
+ print('Going Forward')
 
 
-#def GoBackward():
-#    print('Going Backward')
-#    move(GPIO.LOW, 50, 50)  # Kører baglæns 50% speed
+
+def GoBackward():
+    print('Going Backward')
+    
 
 
-#def press(key):
-#    if key == "f":
-#        GoForward()
-#    elif key == "b":
-#        GoBackward()
+def press(key):
+    if key == "f":
+    GoForward()
+
+    elif key == "b":
+    GoBackward()
 
 
-# Initialize the line sensorhahahhah
-
-#Attach callbacks to the line sensors
-sensor_A.when_line = on_line_A
-sensor_A.when_no_line = off_line_A
-
-sensor_B.when_line = on_line_B
-sensor_B.when_no_line = off_line_B
-
-
-#Define callback functions for each sensor
-
-def line_following(sensor_A, sensor_B):
-    if sensor_A.is_active:
-        print("Sensor A: Line detected! Adjusting motors.")
-        motor_A(True, False, 60)  # Move Motor A forward at 60% speed
-        motor_B(True, False, 30)  # Slow Motor B to turn towards the line
-    else:
-        print("Sensor A: Off the line! Adjusting motors.")
-        motor_A(True, False, 30)  # Stop Motor A
-        motor_B(True, False, 60)  # Speed up Motor B to adjust course
-
-    if sensor_B.is_active:
-        print("Sensor B: Line detected! Adjusting motors.")
-        motor_A(True, False, 30)  # Slow Motor A to turn towards the line
-        motor_B(True, False, 60)  # Move Motor B forward at 60% speed
-    else:
-        print("Sensor B: Off the line! Adjusting motors.")
-        motor_A(True, False, 60)  # Speed up Motor A to adjust course
-        motor_B(True, False, 30)  # Stop Motor B
-
-
-last_detection_A = time()
-
-
-debounce_time = 0.2  # 200 ms debounce
-
-def on_line_A():
-   global last_detection_A
-if (time() - last_detection_A > debounce_time):
-        last_detection_A = time()
-        print("Sensor A: Line detected after debounce.")
-        motor_A(True, False, 50)
-
-def off_line_A():
-    global last_detection_A
-if (time() - last_detection_A > debounce_time):
-        last_detection_A = time()
-        print("Sensor A: Off the line after debounce.")
-        motor_A(False, False, 0)
 
 
 try:
     while True:
-        if sensor_A.line_detected:
-            on_line_A()
-        else:
-            off_line_A()
+    move(GPIO.LOW,50,50)  
 
-        if sensor_B.line_detected:
-            on_line_B()
-        else:
-            off_line_B()
-
-        sleep(0.1)  # Adjust the sleep time to control the sensitivity of the line detection
+    sleep(0.3)  # Adjust the sleep time to control the sensitivity of the line detection
        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
