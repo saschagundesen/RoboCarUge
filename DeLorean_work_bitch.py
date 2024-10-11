@@ -144,24 +144,24 @@ def off_line_B():
 
 
 
-#last_detection_A = time()
+last_detection_A = time()
 
 
-#debounce_time = 0.2  # 200 ms debounce
+debounce_time = 0.2  # 200 ms debounce
 
-#def on_line_A():
-   #global last_detection_A
-#if (time() - last_detection_A > debounce_time):
-       # last_detection_A = time()
-        #print("Sensor A: Line detected after debounce.")
-        #motor_A(True, False, 50)
+def on_line_A():
+   global last_detection_A
+if (time() - last_detection_A > debounce_time):
+    last_detection_A = time()
+    print("Sensor A: Line detected after debounce.")
+    motor_A(True, False, 50)
 
-#def off_line_A():
- #   global last_detection_A
-#if (time() - last_detection_A > debounce_time):
- #       last_detection_A = time()
-  #      print("Sensor A: Off the line after debounce.")
-   #     motor_A(False, False, 0)
+def off_line_A():
+    global last_detection_A
+if (time() - last_detection_A > debounce_time):
+       last_detection_A = time()
+       print("Sensor A: Off the line after debounce.")
+       motor_A(False, False, 0)
 
 
 
@@ -175,19 +175,11 @@ sensor_A.when_no_line = off_line_A
 
 try:
     while True:
-        if sensor_A.line_detected:
-            on_line_A()
-        else:
-            off_line_A()
-
-        if sensor_B.line_detected:
-            on_line_B()
-        else:
-            off_line_B()
-
-        sleep(0.1)  # Adjust the sleep time to control the sensitivity of the line detection
-
-
+        move(GPIO.LOW,60,60)
+        print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
+        print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
+        sleep(0.3)
+        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
     pass
