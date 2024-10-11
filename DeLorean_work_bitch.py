@@ -140,7 +140,7 @@ def on_line_B():
 def off_line_B():
         print("Sensor B: Off the line! Adjusting motors.")
         motor_A(True, False, 0)  # Speed up Motor A to adjust course
-        motor_B(True, False, 60)  # Stop Motor B
+        motor_B(True, False, 0)  # Stop Motor B
 
 last_detection_A = time()
 
