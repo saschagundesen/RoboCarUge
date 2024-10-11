@@ -96,6 +96,16 @@ def move(state, speedleft, speedright):
     PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
     PWM_B2_pwm.ChangeDutyCycle(speedright)
 
+#def move(state,speedleft,speedright):
+    #GPIO.output(DIR_A1,GPIO.HIGH)
+    #GPIO.output(DIR_A2,GPIO.HIGH)
+    #GPIO.output(DIR_B1,GPIO.HIGH)
+    #GPIO.output(DIR_B2,GPIO.LOW)
+    #PWM_A1_pwm.ChangeDutyCycle(speedleft)
+    #PWM_A2_pwm.ChangeDutyCycle(speedleft)
+    #PWM_B1_pwm.ChangeDutyCycle(speedright)
+    #PWM_B2_pwm.ChangeDutyCycle(speedright)
+
 
 
 
