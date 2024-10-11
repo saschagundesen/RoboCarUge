@@ -89,26 +89,26 @@ def move(state, speedleft, speedright):
 
 def GoForward():
     print('Going Forward')
-    motor_A(False,False, 80)  # Kører fremad 50% speed
-    motor_B(False,False, 80)
+    motor_A(False,False, 88)  # Kører fremad 50% speed
+    motor_B(False,False, 88)
 
 
 def GoBackward():
     print('Going Backward')
-    motor_A(True,True, 80)  # Kører fremad 50% speed
-    motor_B(True,True, 80)
+    motor_A(True,True, 88)  # Kører fremad 50% speed
+    motor_B(True,True, 88)
 #jdjd
     
 def TurnRight():
     print('Going Right')
-    motor_A(True,False, 80)  # Kører fremad 50% speed
-    motor_B(False,True, 80)
+    motor_A(True,False, 88)  # Kører fremad 50% speed
+    motor_B(False,True, 88)
 
 
 def TurnLeft():
     print('Going Left')
-    motor_A(False,True, 80)  # Kører fremad 50% speed
-    motor_B(True,False, 80)
+    motor_A(False,True, 88)  # Kører fremad 50% speed
+    motor_B(True,False, 88)
 
 
 def press(key):
