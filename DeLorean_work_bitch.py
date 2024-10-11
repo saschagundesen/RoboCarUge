@@ -175,7 +175,7 @@ sensor_A.when_no_line = off_line_A
 
 try:
     while True:
-        move(GPIO.LOW,60,60)
+        move(GPIO.HIGH,60,60)
         print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
         print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
         sleep(0.3)
