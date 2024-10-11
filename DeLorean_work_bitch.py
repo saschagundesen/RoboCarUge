@@ -87,22 +87,6 @@ motor_A(True, False, 100)
 
 
 # Define direction control functions
-def GoForward():
-    
-    print('Going Forward')
-    move(GPIO.HIGH, 50, 50)  # Both motors move forward at 50% speed
-
-def GoBackward():
-    print('Going Backward')
-    move(GPIO.LOW, 50, 50)  # Both motors move backward at 50% speed
-
-def TurnLeft():
-    print('Turning Left')
-    move(GPIO.HIGH, 30, 50)  # Left motor slower than right motor
-
-def TurnRight():
-    print('Turning Right')
-    move(GPIO.HIGH, 50, 30)  # Right motor slower than left motor
 
 # Use keyboard to trigger these movements
 #def press(key):
