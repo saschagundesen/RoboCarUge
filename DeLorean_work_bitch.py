@@ -129,8 +129,8 @@ def off_line_A():
 def on_line_B():
         print("Sensor B: Line detected! Adjusting motors.")
         # Motor B continues forward, Motor A slows down or adjusts
-        motor_A(True, False, 15)  # Slow Motor A to turn towards the line
-        motor_B(True, False, 50)  # Move Motor B forward at 50% speed
+        motor_A(True, False, 0)  # Slow Motor A to turn towards the line
+        motor_B(True, False, 0)  # Move Motor B forward at 50% speed
 
 def off_line_B():
         print("Sensor B: Off the line! Adjusting motors.")
