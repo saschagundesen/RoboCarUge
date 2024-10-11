@@ -83,10 +83,10 @@ def motor_B(dir1, dir2, speed):
 motor_A(True, False, 100)
 
 def move(state,speedleft,speedright):
-    GPIO.output(DIR_A1,GPIO.HIGH)
-    GPIO.output(DIR_A2,GPIO.HIGH)
-    GPIO.output(DIR_B1,GPIO.HIGH)
-    GPIO.output(DIR_B2,GPIO.LOW)
+    GPIO.output(DIR_A1,GPIO.LOW)
+    GPIO.output(DIR_A2,GPIO.LOW)
+    GPIO.output(DIR_B1,GPIO.LOW)
+    GPIO.output(DIR_B2,GPIO.HIGH)
     PWM_A1_pwm.ChangeDutyCycle(speedleft)
     PWM_A2_pwm.ChangeDutyCycle(speedleft)
     PWM_B1_pwm.ChangeDutyCycle(speedleft)
@@ -115,24 +115,28 @@ def move(state,speedleft,speedright):
 
 #Define callback functions for each sensor
 def on_line_A():
-    """Function to call when sensor A detects the line."""
-    print("Sensor A: Line detected! Moving forward.")
-    motor_A(True, False, 50)  # Motor A moves forward with 50% speed
+        print("Sensor A: Line detected! Adjusting motors.")
+        # Motor A continues forward, Motor B slows down or adjusts
+        motor_A(True, False, 50)  # Move Motor A forward at 50% speed
+        motor_B(True, False, 25)  # Slow Motor B to turn towards the line
 
 def off_line_A():
-    """Function to call when sensor A does not detect the line."""
-    print("Sensor A: Off the line! Stopping.")
-    motor_A(False, False, 0)  # Stop Motor A
+        print("Sensor A: Off the line! Adjusting motors.")
+        # Adjust motors when the sensor loses the line
+        motor_A(True, False, 0)  # Stop Motor A
+        motor_B(True, False, 50)  # Speed up Motor B to adjust course
 
 def on_line_B():
-    """Function to call when sensor B detects the line."""
-    print("Sensor B: Line detected! Moving forward.")
-    motor_B(True, False, 50)  # Motor B moves forward with 50% speed
+        print("Sensor B: Line detected! Adjusting motors.")
+        # Motor B continues forward, Motor A slows down or adjusts
+        motor_A(True, False, 25)  # Slow Motor A to turn towards the line
+        motor_B(True, False, 50)  # Move Motor B forward at 50% speed
 
 def off_line_B():
-    """Function to call when sensor B does not detect the line."""
-    print("Sensor B: Off the line! Stopping.")
-    motor_B(False, False, 0)  # Stop Motor B
+        print("Sensor B: Off the line! Adjusting motors.")
+        motor_A(True, False, 50)  # Speed up Motor A to adjust course
+        motor_B(True, False, 0)  # Stop Motor B
+
 
 #Attach callbacks to the line sensors
 sensor_A.when_line = on_line_A
