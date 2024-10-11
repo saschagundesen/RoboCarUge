@@ -200,7 +200,7 @@ try:
         move(GPIO.LOW,60,60)
         print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
         print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
-        time.sleep(0.3)
+        sleep(0.3)
        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
