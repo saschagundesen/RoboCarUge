@@ -91,10 +91,10 @@ def move(state, speedleft, speedright):
     PWM_A2_pwm.ChangeDutyCycle(speedleft)
 
     #Control Motor B (Right Side)
-    GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for right motor
-    GPIO.output(DIR_B2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
-    PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
-    PWM_B2_pwm.ChangeDutyCycle(speedright)
+    #GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for right motor
+    #GPIO.output(DIR_B2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
+    #PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
+    #PWM_B2_pwm.ChangeDutyCycle(speedright)
 
 
 
