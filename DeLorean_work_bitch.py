@@ -83,28 +83,28 @@ def motor_B(dir1, dir2, speed):
 motor_A(True, False, 100)
 motor_B(True,False,100 )
 
-def move(state, speedleft, speedright):
+#def move(state, speedleft, speedright):
     # Control Motor A (Left Side)
-    GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for left motor
-    GPIO.output(DIR_A2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
-    PWM_A1_pwm.ChangeDutyCycle(speedleft)  # Set speed for left motor
-    PWM_A2_pwm.ChangeDutyCycle(speedleft)
+    #GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for left motor
+    #GPIO.output(DIR_A2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
+    #PWM_A1_pwm.ChangeDutyCycle(speedleft)  # Set speed for left motor
+    #PWM_A2_pwm.ChangeDutyCycle(speedleft)
 
     # Control Motor B (Right Side)
-    GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for right motor
-    GPIO.output(DIR_B2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
-    PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
-    PWM_B2_pwm.ChangeDutyCycle(speedright)
-
-#def move(state,speedleft,speedright):
-    #GPIO.output(DIR_A1,GPIO.HIGH)
-    #GPIO.output(DIR_A2,GPIO.HIGH)
-    #GPIO.output(DIR_B1,GPIO.HIGH)
-    #GPIO.output(DIR_B2,GPIO.LOW)
-    #PWM_A1_pwm.ChangeDutyCycle(speedleft)
-    #PWM_A2_pwm.ChangeDutyCycle(speedleft)
-    #PWM_B1_pwm.ChangeDutyCycle(speedright)
+    #GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for right motor
+    #GPIO.output(DIR_B2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
+    #PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
     #PWM_B2_pwm.ChangeDutyCycle(speedright)
+
+def move(state,speedleft,speedright):
+    GPIO.output(DIR_A1,GPIO.HIGH)
+    GPIO.output(DIR_A2,GPIO.HIGH)
+    GPIO.output(DIR_B1,GPIO.HIGH)
+    GPIO.output(DIR_B2,GPIO.LOW)
+    PWM_A1_pwm.ChangeDutyCycle(speedleft)
+    PWM_A2_pwm.ChangeDutyCycle(speedleft)
+    PWM_B1_pwm.ChangeDutyCycle(speedright)
+    PWM_B2_pwm.ChangeDutyCycle(speedright)
 
 
 
