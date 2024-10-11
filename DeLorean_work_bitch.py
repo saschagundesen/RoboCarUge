@@ -54,6 +54,9 @@ GPIO.setup(DIR_A2, GPIO.OUT)
 GPIO.setup(DIR_B1, GPIO.OUT)
 GPIO.setup(DIR_B2, GPIO.OUT)
 
+GPIO.setup(SEN_1,GPIO.IN)
+GPIO.setup(SEN_2,GPIO.IN)
+
 # Define motor control functions
 def motor_A(dir1, dir2, speed):
     """
@@ -138,28 +141,28 @@ def on_line_A():
   
         print("Sensor A: Line detected! Adjusting motors.")
         # Motor A continues forward, Motor B slows down or adjusts
-        motor_A(True, False, 50)  # Move Motor A forward at 50% speed
-        motor_B(True, False, 25)  # Slow Motor B to turn towards the line
+        motor_A(True, False, 60)  # Move Motor A forward at 50% speed
+        motor_B(True, False, 30)  # Slow Motor B to turn towards the line
 
 def off_line_A():
     
         print("Sensor A: Off the line! Adjusting motors.")
         # Adjust motors when the sensor loses the line
-        motor_A(True, False, 0)  # Stop Motor A
-        motor_B(True, False, 50)  # Speed up Motor B to adjust course
+        motor_A(True, False, 30)  # Stop Motor A
+        motor_B(True, False, 60)  # Speed up Motor B to adjust course
 
 def on_line_B():
     
         print("Sensor B: Line detected! Adjusting motors.")
         # Motor B continues forward, Motor A slows down or adjusts
-        motor_A(True, False, 25)  # Slow Motor A to turn towards the line
-        motor_B(True, False, 50)  # Move Motor B forward at 50% speed
+        motor_A(True, False, 30)  # Slow Motor A to turn towards the line
+        motor_B(True, False, 60)  # Move Motor B forward at 50% speed
 
 def off_line_B():
     
         print("Sensor B: Off the line! Adjusting motors.")
-        motor_A(True, False, 50)  # Speed up Motor A to adjust course
-        motor_B(True, False, 0)  # Stop Motor B
+        motor_A(True, False, 60)  # Speed up Motor A to adjust course
+        motor_B(True, False, 30)  # Stop Motor B
 
 
 #Attach callbacks to the line sensors
@@ -183,12 +186,14 @@ def move(state, speedleft, speedright):
     PWM_B1_pwm.ChangeDutyCycle(speedright)
     PWM_B2_pwm.ChangeDutyCycle(speedright)
 
-move(GPIO.HIGH, 50, 30)  # Left motor at 50%, right motor at 30%, turns right
-move(GPIO.HIGH, 30, 50)  # Left motor at 30%, right motor at 50%, turns left
+
 
 try:
     while True:
-        move(GPIO.LOW,50,50)
+        move(GPIO.LOW,60,60)
+        print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
+        print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
+        sleep(0.5)
        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
