@@ -1,4 +1,3 @@
-
 import RPi.GPIO as GPIO
 from gpiozero import LineSensor
 from time import sleep, time
@@ -34,19 +33,19 @@ GPIO.setmode(GPIO.BCM)
 
 # Initialize the PWM for motors
 GPIO.setup(PWM_A1, GPIO.OUT)
-PWM_A1_pwm = GPIO.PWM(PWM_A1,1000)  # 1000 Hz frequency
+PWM_A1_pwm = GPIO.PWM(PWM_A1, 50)  # 50 Hz frequency
 PWM_A1_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_A2, GPIO.OUT)
-PWM_A2_pwm = GPIO.PWM(PWM_A2, 1000)  # 1000 Hz frequency
+PWM_A2_pwm = GPIO.PWM(PWM_A2, 50)  # 50 Hz frequency
 PWM_A2_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_B1, GPIO.OUT)
-PWM_B1_pwm = GPIO.PWM(PWM_B1, 1000)  # 1000 Hz frequency
+PWM_B1_pwm = GPIO.PWM(PWM_B1, 50)  # 50 Hz frequency
 PWM_B1_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_B2, GPIO.OUT)
-PWM_B2_pwm = GPIO.PWM(PWM_B2, 1000)  # 1000 Hz frequency
+PWM_B2_pwm = GPIO.PWM(PWM_B2, 50)  # 50 Hz frequency
 PWM_B2_pwm.start(0)  # Initial duty cycle 0%
 
 # Initialize DIR pins
@@ -81,20 +80,49 @@ def motor_B(dir1, dir2, speed):
     PWM_B2_pwm.ChangeDutyCycle(speed)
 
 motor_A(True, False, 100)
-motor_B(True,False,100 )
 
 def move(state, speedleft, speedright):
-   #Control Motor A (Left Side)
-    GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for left motor
-    GPIO.output(DIR_A2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
-    PWM_A1_pwm.ChangeDutyCycle(speedleft)  # Set speed for left motor
+    """ Move the robot based on speed of left and right motors """
+    # Motor A (left motor)
+    GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)
+    GPIO.output(DIR_A2, GPIO.LOW)
+    PWM_A1_pwm.ChangeDutyCycle(speedleft)
     PWM_A2_pwm.ChangeDutyCycle(speedleft)
 
-    #Control Motor B (Right Side)
-    GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for right motor
-    GPIO.output(DIR_B2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
-    PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
+    # Motor B (right motor)
+    GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)
+    GPIO.output(DIR_B2, GPIO.LOW)
+    PWM_B1_pwm.ChangeDutyCycle(speedright)
     PWM_B2_pwm.ChangeDutyCycle(speedright)
+
+
+# Define direction control functions
+def GoForward():
+    print('Going Forward')
+    move(GPIO.HIGH, 50, 50)  # Both motors move forward at 50% speed
+
+def GoBackward():
+    print('Going Backward')
+    move(GPIO.LOW, 50, 50)  # Both motors move backward at 50% speed
+
+def TurnLeft():
+    print('Turning Left')
+    move(GPIO.HIGH, 30, 50)  # Left motor slower than right motor
+
+def TurnRight():
+    print('Turning Right')
+    move(GPIO.HIGH, 50, 30)  # Right motor slower than left motor
+
+# Use keyboard to trigger these movements
+def press(key):
+    if key == "f":
+        GoForward()
+    elif key == "b":
+        GoBackward()
+    elif key == "l":
+        TurnLeft()
+    elif key == "r":
+        TurnRight()
 
 
 
@@ -119,67 +147,45 @@ def move(state, speedleft, speedright):
 
 #Define callback functions for each sensor
 def on_line_A():
+  
         print("Sensor A: Line detected! Adjusting motors.")
         # Motor A continues forward, Motor B slows down or adjusts
-        motor_A(True, False, 60)  # Move Motor A forward at 50% speed
-        motor_B(True, False, 30)  # Slow Motor B to turn towards the line
+        motor_A(True, False, 50)  # Move Motor A forward at 50% speed
+        motor_B(True, False, 25)  # Slow Motor B to turn towards the line
 
 def off_line_A():
+    
         print("Sensor A: Off the line! Adjusting motors.")
         # Adjust motors when the sensor loses the line
-        motor_A(True, False, 30)  # Stop Motor A
-        motor_B(True, False, 60)  # Speed up Motor B to adjust course
+        motor_A(True, False, 0)  # Stop Motor A
+        motor_B(True, False, 50)  # Speed up Motor B to adjust course
 
 def on_line_B():
+    
         print("Sensor B: Line detected! Adjusting motors.")
         # Motor B continues forward, Motor A slows down or adjusts
-        motor_A(True, False, 30)  # Slow Motor A to turn towards the line
-        motor_B(True, False, 60)  # Move Motor B forward at 50% speed
+        motor_A(True, False, 25)  # Slow Motor A to turn towards the line
+        motor_B(True, False, 50)  # Move Motor B forward at 50% speed
 
 def off_line_B():
+    
         print("Sensor B: Off the line! Adjusting motors.")
-        motor_A(True, False, 60)  # Speed up Motor A to adjust course
-        motor_B(True, False, 30)  # Stop Motor B
-
-
-
-
-last_detection_A = time()
-
-
-debounce_time = 0.2  # 200 ms debounce
-
-def on_line_A():
-   global last_detection_A
-if (time() - last_detection_A > debounce_time):
-    last_detection_A = time()
-    print("Sensor A: Line detected after debounce.")
-    motor_A(True, False, 50)
-
-def off_line_A():
-    global last_detection_A
-if (time() - last_detection_A > debounce_time):
-       last_detection_A = time()
-       print("Sensor A: Off the line after debounce.")
-       motor_A(False, False, 0)
-
-
+        motor_A(True, False, 50)  # Speed up Motor A to adjust course
+        motor_B(True, False, 0)  # Stop Motor B
 
 
 #Attach callbacks to the line sensors
 sensor_A.when_line = on_line_A
 sensor_A.when_no_line = off_line_A
 
-
+sensor_B.when_line = on_line_B
+sensor_B.when_no_line = off_line_B
 
 
 try:
     while True:
-        move(GPIO.HIGH,60,60)
-        print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
-        print("Motor direction:",GPIO.output(DIR_A1,GPIO.LOW))
-        sleep(0.3)
-
+        move(GPIO.LOW,50,50)
+       
 except KeyboardInterrupt:
     print('Programmet er stoppet')
     pass
