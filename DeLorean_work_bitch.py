@@ -33,19 +33,19 @@ GPIO.setmode(GPIO.BCM)
 
 # Initialize the PWM for motors
 GPIO.setup(PWM_A1, GPIO.OUT)
-PWM_A1_pwm = GPIO.PWM(PWM_A1, 50)  # 50 Hz frequency
+PWM_A1_pwm = GPIO.PWM(PWM_A1, 1000)  # 50 Hz frequency
 PWM_A1_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_A2, GPIO.OUT)
-PWM_A2_pwm = GPIO.PWM(PWM_A2, 50)  # 50 Hz frequency
+PWM_A2_pwm = GPIO.PWM(PWM_A2, 1000)  # 50 Hz frequency
 PWM_A2_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_B1, GPIO.OUT)
-PWM_B1_pwm = GPIO.PWM(PWM_B1, 50)  # 50 Hz frequency
+PWM_B1_pwm = GPIO.PWM(PWM_B1, 1000)  # 50 Hz frequency
 PWM_B1_pwm.start(0)  # Initial duty cycle 0%
 
 GPIO.setup(PWM_B2, GPIO.OUT)
-PWM_B2_pwm = GPIO.PWM(PWM_B2, 50)  # 50 Hz frequency
+PWM_B2_pwm = GPIO.PWM(PWM_B2, 1000)  # 50 Hz frequency
 PWM_B2_pwm.start(0)  # Initial duty cycle 0%
 
 # Initialize DIR pins
@@ -81,23 +81,11 @@ def motor_B(dir1, dir2, speed):
 
 motor_A(True, False, 100)
 
-def move(state, speedleft, speedright):
-    """ Move the robot based on speed of left and right motors """
-    # Motor A (left motor)
-    GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)
-    GPIO.output(DIR_A2, GPIO.LOW)
-    PWM_A1_pwm.ChangeDutyCycle(speedleft)
-    PWM_A2_pwm.ChangeDutyCycle(speedleft)
-
-    # Motor B (right motor)
-    GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)
-    GPIO.output(DIR_B2, GPIO.LOW)
-    PWM_B1_pwm.ChangeDutyCycle(speedright)
-    PWM_B2_pwm.ChangeDutyCycle(speedright)
 
 
 # Define direction control functions
 def GoForward():
+    
     print('Going Forward')
     move(GPIO.HIGH, 50, 50)  # Both motors move forward at 50% speed
 
@@ -114,15 +102,15 @@ def TurnRight():
     move(GPIO.HIGH, 50, 30)  # Right motor slower than left motor
 
 # Use keyboard to trigger these movements
-def press(key):
-    if key == "f":
-        GoForward()
-    elif key == "b":
-        GoBackward()
-    elif key == "l":
-        TurnLeft()
-    elif key == "r":
-        TurnRight()
+#def press(key):
+   # if key == "f":
+       # GoForward()
+    #elif key == "b":
+       # GoBackward()
+    #elif key == "l":
+       # TurnLeft()
+   # elif key == "r":
+       # TurnRight()
 
 
 
@@ -181,6 +169,22 @@ sensor_A.when_no_line = off_line_A
 sensor_B.when_line = on_line_B
 sensor_B.when_no_line = off_line_B
 
+def move(state, speedleft, speedright):
+    """ Move the robot based on speed of left and right motors """
+    # Motor A (left motor)
+    GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)
+    GPIO.output(DIR_A2, GPIO.LOW)
+    PWM_A1_pwm.ChangeDutyCycle(speedleft)
+    PWM_A2_pwm.ChangeDutyCycle(speedleft)
+
+    # Motor B (right motor)
+    GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)
+    GPIO.output(DIR_B2, GPIO.LOW)
+    PWM_B1_pwm.ChangeDutyCycle(speedright)
+    PWM_B2_pwm.ChangeDutyCycle(speedright)
+
+move(GPIO.HIGH, 50, 30)  # Left motor at 50%, right motor at 30%, turns right
+move(GPIO.HIGH, 30, 50)  # Left motor at 30%, right motor at 50%, turns left
 
 try:
     while True:
