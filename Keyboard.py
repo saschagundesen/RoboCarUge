@@ -101,8 +101,8 @@ def GoBackward():
     
 def TurnRight():
     print('Going Right')
-    motor_A(False,False, 50)  # Kører fremad 50% speed
-    motor_B(True,True, 50)
+    motor_A(True,False, 50)  # Kører fremad 50% speed
+    motor_B(False,True, 50)
 
 
 def TurnLeft():
