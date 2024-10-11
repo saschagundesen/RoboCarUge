@@ -84,17 +84,17 @@ motor_A(True, False, 100)
 motor_B(True,False,100 )
 
 #def move(state, speedleft, speedright):
-    # Control Motor A (Left Side)
-    #GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for left motor
-    #GPIO.output(DIR_A2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
-    #PWM_A1_pwm.ChangeDutyCycle(speedleft)  # Set speed for left motor
-    #PWM_A2_pwm.ChangeDutyCycle(speedleft)
+   """ #Control Motor A (Left Side)
+    GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for left motor
+    GPIO.output(DIR_A2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
+    PWM_A1_pwm.ChangeDutyCycle(speedleft)  # Set speed for left motor
+    PWM_A2_pwm.ChangeDutyCycle(speedleft)
 
-    # Control Motor B (Right Side)
-    #GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for right motor
-    #GPIO.output(DIR_B2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
-    #PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
-    #PWM_B2_pwm.ChangeDutyCycle(speedright)
+    #Control Motor B (Right Side)
+    GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for right motor
+    GPIO.output(DIR_B2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
+    PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
+    PWM_B2_pwm.ChangeDutyCycle(speedright)"""
 
 def move(state,speedleft,speedright):
     GPIO.output(DIR_A1,GPIO.HIGH)
@@ -154,7 +154,9 @@ def off_line_B():
         motor_B(True, False, 60)  # Stop Motor B
 
 last_detection_A = time()
-debounce_time = 0.5  # 500 ms debounce
+last_detection_B = time()
+
+debounce_time = 0.4  # 400 ms debounce
 
 def on_line_A():
     global last_detection_A
@@ -170,6 +172,20 @@ def off_line_A():
         print("Sensor A: Off the line after debounce.")
         motor_A(False, False, 0)
 
+def on_line_B():
+    global last_detection_B
+    if (time() - last_detection_B > debounce_time):
+        last_detection_B = time()
+        print("Sensor B: Line detected after debounce.")
+        motor_B(True, False, 50)  # Slow down or adjust Motor B
+
+def off_line_B():
+    global last_detection_B
+    if (time() - last_detection_B > debounce_time):
+        last_detection_B = time()
+        print("Sensor B: Off the line after debounce.")
+        motor_B(False, False, 20)  # Reduce speed instead of stopping
+
 
 #Attach callbacks to the line sensors
 sensor_A.when_line = on_line_A
@@ -184,7 +200,7 @@ try:
         move(GPIO.LOW,60,60)
         print("Motor speed:",PWM_A1_pwm.ChangeDutyCycle(60))
         print("Motor direction:",GPIO.output(DIR_A1,GPIO.HIGH))
-        sleep(0.3)
+        time.sleep(0.3)
        
 except KeyboardInterrupt:
     print('Programmet er stoppet')
