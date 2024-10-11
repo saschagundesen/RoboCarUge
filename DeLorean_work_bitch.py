@@ -150,7 +150,7 @@ def off_line_B():
 #debounce_time = 0.2  # 200 ms debounce
 
 #def on_line_A():
-   global last_detection_A
+   #global last_detection_A
 #if (time() - last_detection_A > debounce_time):
        # last_detection_A = time()
         #print("Sensor A: Line detected after debounce.")
