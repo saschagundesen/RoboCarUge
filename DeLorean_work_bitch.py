@@ -139,7 +139,7 @@ def off_line_B():
         motor_B(True, False, 60)  # Stop Motor B
 
 last_detection_A = time()
-debounce_time = 0.2  # 200 ms debounce
+debounce_time = 0.5  # 500 ms debounce
 
 def on_line_A():
     global last_detection_A
