@@ -1,0 +1,192 @@
+import RPi.GPIO as GPIO
+from gpiozero import LineSensor
+from time import sleep, time
+from signal import pause #signal er indbygget i python idle3
+#from sshkeyboard import listen_keyboard
+
+# Motor A
+DIR_A1 = 4 # skal skiftes  # DIR 1 for Motor A
+DIR_A2 = 23 # 11 # DIR 2 for Motor A
+PWM_A1 = 18 # 24 # PWM 1 for Motor A
+PWM_A2 = 19 # 10 # PWM 2 for Motor A
+
+# Motor B
+DIR_B1 = 17 # skiftes # DIR 1 for Motor B
+DIR_B2 = 21 # 9 # DIR 2 for Motor B
+PWM_B1 = 13 # 27 # PWM 1 for Motor B
+PWM_B2 = 26 # 7 # PWM 2 for Motor B
+
+# Sensor A
+SEN_1 = 11
+# Sensor B
+SEN_2 = 16
+
+#sensor = LineSensor(SEN_1, SEN_2)
+sensor_A = LineSensor(SEN_1)
+sensor_B = LineSensor(SEN_2)
+#prøv
+
+
+# Initialize GPIO
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)  
+
+# Initialize the PWM for motors
+GPIO.setup(PWM_A1, GPIO.OUT)
+PWM_A1_pwm = GPIO.PWM(PWM_A1,1000)  # 1000 Hz frequency
+PWM_A1_pwm.start(0)  # Initial duty cycle 0%
+
+GPIO.setup(PWM_A2, GPIO.OUT)
+PWM_A2_pwm = GPIO.PWM(PWM_A2, 1000)  # 1000 Hz frequency
+PWM_A2_pwm.start(0)  # Initial duty cycle 0%
+
+GPIO.setup(PWM_B1, GPIO.OUT)
+PWM_B1_pwm = GPIO.PWM(PWM_B1, 1000)  # 1000 Hz frequency
+PWM_B1_pwm.start(0)  # Initial duty cycle 0%
+
+GPIO.setup(PWM_B2, GPIO.OUT)
+PWM_B2_pwm = GPIO.PWM(PWM_B2, 1000)  # 1000 Hz frequency
+PWM_B2_pwm.start(0)  # Initial duty cycle 0%
+
+# Initialize DIR pins
+GPIO.setup(DIR_A1, GPIO.OUT)
+GPIO.setup(DIR_A2, GPIO.OUT)
+GPIO.setup(DIR_B1, GPIO.OUT)
+GPIO.setup(DIR_B2, GPIO.OUT)
+
+# Define motor control functions
+def motor_A(dir1, dir2, speed):
+    """
+    Control Motor A to move in a specific direction at a given speed.
+    :param dir1: Boolean value indicating direction 1.
+    :param dir2: Boolean value indicating direction 2.
+    :param speed: Speed percentage (0-100).
+    """
+    GPIO.output(DIR_A1, GPIO.HIGH if dir1 else GPIO.LOW)
+    GPIO.output(DIR_A2, GPIO.HIGH if dir2 else GPIO.LOW)
+    PWM_A1_pwm.ChangeDutyCycle(speed)
+    PWM_A2_pwm.ChangeDutyCycle(speed)
+
+def motor_B(dir1, dir2, speed):
+    """
+    Control Motor B to move in a specific direction at a given speed.
+    :param dir1: Boolean value indicating direction 1.
+    :param dir2: Boolean value indicating direction 2.
+    :param speed: Speed percentage (0-100).
+    """
+    GPIO.output(DIR_B1, GPIO.HIGH if dir1 else GPIO.LOW)
+    GPIO.output(DIR_B2, GPIO.HIGH if dir2 else GPIO.LOW)
+    PWM_B1_pwm.ChangeDutyCycle(speed)
+    PWM_B2_pwm.ChangeDutyCycle(speed)
+
+motor_A(True, False, 100)
+motor_B(True,False,100 )
+
+def move(state, speedleft, speedright):
+   #Control Motor A (Left Side)
+    GPIO.output(DIR_A1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for left motor
+    GPIO.output(DIR_A2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
+    PWM_A1_pwm.ChangeDutyCycle(speedleft)  # Set speed for left motor
+    PWM_A2_pwm.ChangeDutyCycle(speedleft)
+
+    #Control Motor B (Right Side)
+    GPIO.output(DIR_B1, GPIO.HIGH if state else GPIO.LOW)  # Set direction for right motor
+    GPIO.output(DIR_B2, GPIO.LOW if state else GPIO.HIGH)  # Adjust the opposite direction pin
+    PWM_B1_pwm.ChangeDutyCycle(speedright)  # Set speed for right motor
+    PWM_B2_pwm.ChangeDutyCycle(speedright)
+
+
+
+#def GoForward():
+#    print('Going Forward')
+#    move(GPIO.HIGH, 50,50)  # Kører fremad 50% speed
+
+
+#def GoBackward():
+#    print('Going Backward')
+#    move(GPIO.LOW, 50, 50)  # Kører baglæns 50% speed
+
+
+#def press(key):
+#    if key == "f":
+#        GoForward()
+#    elif key == "b":
+#        GoBackward()
+
+
+# Initialize the line sensorhahahhah
+
+#Attach callbacks to the line sensors
+sensor_A.when_line = on_line_A
+sensor_A.when_no_line = off_line_A
+
+sensor_B.when_line = on_line_B
+sensor_B.when_no_line = off_line_B
+
+
+#Define callback functions for each sensor
+
+def line_following(sensor_A, sensor_B):
+    if sensor_A.is_active:
+        print("Sensor A: Line detected! Adjusting motors.")
+        motor_A(True, False, 60)  # Move Motor A forward at 60% speed
+        motor_B(True, False, 30)  # Slow Motor B to turn towards the line
+    else:
+        print("Sensor A: Off the line! Adjusting motors.")
+        motor_A(True, False, 30)  # Stop Motor A
+        motor_B(True, False, 60)  # Speed up Motor B to adjust course
+
+    if sensor_B.is_active:
+        print("Sensor B: Line detected! Adjusting motors.")
+        motor_A(True, False, 30)  # Slow Motor A to turn towards the line
+        motor_B(True, False, 60)  # Move Motor B forward at 60% speed
+    else:
+        print("Sensor B: Off the line! Adjusting motors.")
+        motor_A(True, False, 60)  # Speed up Motor A to adjust course
+        motor_B(True, False, 30)  # Stop Motor B
+
+
+last_detection_A = time()
+
+
+debounce_time = 0.2  # 200 ms debounce
+
+def on_line_A():
+   global last_detection_A
+if (time() - last_detection_A > debounce_time):
+        last_detection_A = time()
+        print("Sensor A: Line detected after debounce.")
+        motor_A(True, False, 50)
+
+def off_line_A():
+    global last_detection_A
+if (time() - last_detection_A > debounce_time):
+        last_detection_A = time()
+        print("Sensor A: Off the line after debounce.")
+        motor_A(False, False, 0)
+
+
+try:
+    while True:
+        if sensor_A.line_detected:
+            on_line_A()
+        else:
+            off_line_A()
+
+        if sensor_B.line_detected:
+            on_line_B()
+        else:
+            off_line_B()
+
+        sleep(0.1)  # Adjust the sleep time to control the sensitivity of the line detection
+       
+except KeyboardInterrupt:
+    print('Programmet er stoppet')
+    pass
+
+finally:
+    GPIO.cleanup()
+    PWM_A1_pwm.stop()
+    PWM_A2_pwm.stop()
+    PWM_B1_pwm.stop()
+    PWM_B2_pwm.stop()
