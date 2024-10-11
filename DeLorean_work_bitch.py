@@ -119,24 +119,29 @@ def move(state, speedleft, speedright):
 
 #Define callback functions for each sensor
 
-def line_following(sensor_A, sensor_B):
-    if sensor_A.is_active:
+def on_line_A():
         print("Sensor A: Line detected! Adjusting motors.")
-        motor_A(True, False, 60)  # Move Motor A forward at 60% speed
+        # Motor A continues forward, Motor B slows down or adjusts
+        motor_A(True, False, 60)  # Move Motor A forward at 50% speed
         motor_B(True, False, 30)  # Slow Motor B to turn towards the line
-    else:
+
+def off_line_A():
         print("Sensor A: Off the line! Adjusting motors.")
+        # Adjust motors when the sensor loses the line
         motor_A(True, False, 30)  # Stop Motor A
         motor_B(True, False, 60)  # Speed up Motor B to adjust course
 
-    if sensor_B.is_active:
+def on_line_B():
         print("Sensor B: Line detected! Adjusting motors.")
+        # Motor B continues forward, Motor A slows down or adjusts
         motor_A(True, False, 30)  # Slow Motor A to turn towards the line
-        motor_B(True, False, 60)  # Move Motor B forward at 60% speed
-    else:
+        motor_B(True, False, 60)  # Move Motor B forward at 50% speed
+
+def off_line_B():
         print("Sensor B: Off the line! Adjusting motors.")
         motor_A(True, False, 60)  # Speed up Motor A to adjust course
         motor_B(True, False, 30)  # Stop Motor B
+
 
 
 last_detection_A = time()
